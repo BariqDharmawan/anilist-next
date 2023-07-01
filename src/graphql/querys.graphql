@@ -1,0 +1,22 @@
+query QueryMediaPage($page: Int, $perPage: Int) {
+    Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+        currentPage
+        lastPage
+        hasNextPage
+        perPage
+      }
+      media {
+        id
+        title {
+          romaji
+        }
+        coverImage {
+          large
+          medium
+        }
+        bannerImage
+      }
+    }
+  }
