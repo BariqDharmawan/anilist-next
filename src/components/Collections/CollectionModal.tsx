@@ -1,15 +1,18 @@
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+
 import CollectionForm from "./CollectionForm";
 import { ModalOverlay } from "./Collection.styled";
-import { useEffect, useState } from "react";
 import { AnimeCollection } from "@/src/types";
+import { COLLECTION_KEY_STORAGE } from "@/src/constants";
 
 interface Props {
   isShow: boolean;
   setShow: (show: boolean) => void;
+  animeId: string;
 }
 
-export default function CollectionModal({ isShow, setShow }: Props) {
+export default function CollectionModal({ isShow, setShow, animeId }: Props) {
   const [collections, setCollections] = useState<AnimeCollection[]>([]);
   const handleClose = () => {
     setShow(false);
@@ -17,9 +20,9 @@ export default function CollectionModal({ isShow, setShow }: Props) {
 
   useEffect(() => {
     const getCollection = () => {
-      const currentCollectionStr = localStorage.getItem("collection");
+      const currentCollectionStr = localStorage.getItem(COLLECTION_KEY_STORAGE);
       if (!currentCollectionStr) {
-        localStorage.setItem("collection", "[]");
+        localStorage.setItem(COLLECTION_KEY_STORAGE, "[]");
         return;
       }
 
@@ -34,7 +37,7 @@ export default function CollectionModal({ isShow, setShow }: Props) {
     return () => {
       document.body.style.overflow = "";
     };
-  }, []);
+  }, [isShow]);
 
   return (
     <>
@@ -47,7 +50,7 @@ export default function CollectionModal({ isShow, setShow }: Props) {
               }
             }}
           >
-            <CollectionForm {...{ handleClose, collections }} />
+            <CollectionForm {...{ handleClose, collections, animeId }} />
           </ModalOverlay>,
           document.body
         )}

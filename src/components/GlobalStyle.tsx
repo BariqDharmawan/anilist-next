@@ -1,6 +1,6 @@
 import { css, Global } from "@emotion/react";
 
-// This Component Just for Example Propose
+// Warning this Component for GlobalStyle
 export default function GlobalStyle() {
   return (
     <>

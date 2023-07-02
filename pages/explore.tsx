@@ -15,7 +15,11 @@ export default function Explore() {
       </p>
       <Button onClick={() => setShowModal(true)}>Show Modal</Button>
       <ClientOnly>
-        <CollectionModal isShow={showModal} setShow={setShowModal} />
+        <CollectionModal
+          isShow={showModal}
+          setShow={setShowModal}
+          animeId="99"
+        />
       </ClientOnly>
     </Card>
   );

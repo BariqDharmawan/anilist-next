@@ -1,15 +1,29 @@
+import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+
+const blurEffect = keyframes`
+  0% {
+    backdrop-filter: blur(8px) opacity(0);
+  } 
+  40%{
+    backdrop-filter: blur(8px) opacity(0.8);
+  }
+  100% {
+    backdrop-filter: blur(4px) opacity(1);
+  }
+  `;
 
 export const ModalOverlay = styled.div`
   position: fixed;
   inset: 0;
-  backdrop-filter: ${(props) => props.theme.blur.l};
   background-color: rgba(0, 0, 0, 0.5); /* Warna latar belakang overlay */
-  z-index: 9999; /* Pastikan overlay tampil di atas elemen lain */
+  z-index: ${(props) =>
+    props.theme.zIndex
+      .overlay}; /* Pastikan overlay tampil di atas elemen lain */
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: backdrop-filter 1s ease-in-out;
+  animation: ${blurEffect} 300ms ease-in forwards;
 `;
 
 export const CollectionCard = styled.div`
@@ -19,6 +33,7 @@ export const CollectionCard = styled.div`
   border-radius: ${(props) => props.theme.borderRadius.l};
   max-width: 700px;
   width: 100%;
+  transition: height 300ms ease-in-out;
 `;
 
 export const IconCloseWrapper = styled.div`

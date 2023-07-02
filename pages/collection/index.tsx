@@ -1,3 +1,13 @@
-export default function CollectionList() {
-  return <div>collection List</div>;
+import ClientOnly from "@/src/components/ClientOnly";
+import CollectionList from "@/src/sections/CollectionList";
+
+export default function Collection() {
+  return (
+    <div>
+      <h1>Collection List</h1>
+      <ClientOnly>
+        <CollectionList />
+      </ClientOnly>
+    </div>
+  );
 }

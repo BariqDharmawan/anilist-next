@@ -1,12 +1,17 @@
 import Button from "@/src/components/Button";
+import ClientOnly from "@/src/components/ClientOnly";
+import CollectionModal from "@/src/components/Collections/CollectionModal";
 import { useQueryAnimeDetailQuery } from "@/src/graphql/generated";
 import Image from "next/image";
+import { useState } from "react";
 
 interface Props {
   id: string;
 }
 
 export default function AnimeDetail({ id }: Props) {
+  const [showModal, setShowModal] = useState(false);
+
   const { data, loading, error } = useQueryAnimeDetailQuery({
     variables: {
       id: parseInt(id),
@@ -16,7 +21,8 @@ export default function AnimeDetail({ id }: Props) {
 
   return (
     <div>
-      <Button>Add To Collection</Button>
+      <Button onClick={() => setShowModal(true)}>Add To Collection</Button>
+
       <h3>{data?.Media?.title?.romaji}</h3>
       <div>
         {data?.Media?.genres?.map((genre, idx) => (
@@ -49,6 +55,13 @@ export default function AnimeDetail({ id }: Props) {
           />
         </div>
       )}
+      <ClientOnly>
+        <CollectionModal
+          isShow={showModal}
+          setShow={setShowModal}
+          animeId={id}
+        />
+      </ClientOnly>
     </div>
   );
 }

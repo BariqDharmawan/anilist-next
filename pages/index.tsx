@@ -16,10 +16,8 @@ export default function HomePage() {
   const page = params.page !== undefined ? parseInt(params.page) : 1;
 
   return (
-    <div>
-      <ClientOnly>
-        <Home {...{ page }} />
-      </ClientOnly>
-    </div>
+    <ClientOnly>
+      <Home {...{ page }} />
+    </ClientOnly>
   );
 }
