@@ -4677,6 +4677,14 @@ export type QueryMediaPageQueryVariables = Exact<{
 
 export type QueryMediaPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', pageInfo?: { __typename?: 'PageInfo', total?: number | null, currentPage?: number | null, lastPage?: number | null, hasNextPage?: boolean | null, perPage?: number | null } | null, media?: Array<{ __typename?: 'Media', id: number, bannerImage?: string | null, title?: { __typename?: 'MediaTitle', romaji?: string | null } | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null, medium?: string | null } | null } | null> | null } | null };
 
+export type QueryAnimeDetailQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['Int']['input']>;
+  asHtml?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type QueryAnimeDetailQuery = { __typename?: 'Query', Media?: { __typename?: 'Media', genres?: Array<string | null> | null, favourites?: number | null, description?: string | null, title?: { __typename?: 'MediaTitle', romaji?: string | null } | null, rankings?: Array<{ __typename?: 'MediaRank', id: number, year?: number | null, rank: number } | null> | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null } | null } | null };
+
 
 export const QueryMediaPageDocument = gql`
     query QueryMediaPage($page: Int, $perPage: Int) {
@@ -4731,3 +4739,52 @@ export function useQueryMediaPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type QueryMediaPageQueryHookResult = ReturnType<typeof useQueryMediaPageQuery>;
 export type QueryMediaPageLazyQueryHookResult = ReturnType<typeof useQueryMediaPageLazyQuery>;
 export type QueryMediaPageQueryResult = Apollo.QueryResult<QueryMediaPageQuery, QueryMediaPageQueryVariables>;
+export const QueryAnimeDetailDocument = gql`
+    query QueryAnimeDetail($id: Int, $asHtml: Boolean) {
+  Media(id: $id) {
+    title {
+      romaji
+    }
+    genres
+    favourites
+    rankings {
+      id
+      year
+      rank
+    }
+    coverImage {
+      large
+    }
+    description(asHtml: $asHtml)
+  }
+}
+    `;
+
+/**
+ * __useQueryAnimeDetailQuery__
+ *
+ * To run a query within a React component, call `useQueryAnimeDetailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQueryAnimeDetailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQueryAnimeDetailQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      asHtml: // value for 'asHtml'
+ *   },
+ * });
+ */
+export function useQueryAnimeDetailQuery(baseOptions?: Apollo.QueryHookOptions<QueryAnimeDetailQuery, QueryAnimeDetailQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QueryAnimeDetailQuery, QueryAnimeDetailQueryVariables>(QueryAnimeDetailDocument, options);
+      }
+export function useQueryAnimeDetailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryAnimeDetailQuery, QueryAnimeDetailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QueryAnimeDetailQuery, QueryAnimeDetailQueryVariables>(QueryAnimeDetailDocument, options);
+        }
+export type QueryAnimeDetailQueryHookResult = ReturnType<typeof useQueryAnimeDetailQuery>;
+export type QueryAnimeDetailLazyQueryHookResult = ReturnType<typeof useQueryAnimeDetailLazyQuery>;
+export type QueryAnimeDetailQueryResult = Apollo.QueryResult<QueryAnimeDetailQuery, QueryAnimeDetailQueryVariables>;

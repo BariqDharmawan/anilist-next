@@ -1,14 +1,22 @@
+import { useState } from "react";
 import Button from "@/src/components/Button";
+import Card from "@/src/components/Card";
+import ClientOnly from "@/src/components/ClientOnly";
+import CollectionModal from "@/src/components/Collections/CollectionModal";
 
 export default function Explore() {
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <div>
+    <Card>
       <p>
         This is just for example component remove later if you already
         understand emotion
       </p>
-      <div className="some-class">Hello World</div>
-      <Button>Hello World</Button>
-    </div>
+      <Button onClick={() => setShowModal(true)}>Show Modal</Button>
+      <ClientOnly>
+        <CollectionModal isShow={showModal} setShow={setShowModal} />
+      </ClientOnly>
+    </Card>
   );
 }

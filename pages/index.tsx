@@ -1,5 +1,6 @@
 import Button from "@/src/components/Button";
 import ClientOnly from "@/src/components/ClientOnly";
+import { useQueryAnimeDetailQuery } from "@/src/graphql/generated";
 import Home from "@/src/sections/Home";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
@@ -12,7 +13,6 @@ interface Params extends ParsedUrlQuery {
 export default function HomePage() {
   const router = useRouter();
   const params = router.query as Params;
-
   const page = params.page !== undefined ? parseInt(params.page) : 1;
 
   return (

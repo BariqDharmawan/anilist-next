@@ -1,4 +1,4 @@
-import { css, Global, ClassNames } from "@emotion/react";
+import { css, Global } from "@emotion/react";
 
 // This Component Just for Example Propose
 export default function GlobalStyle() {
@@ -6,21 +6,22 @@ export default function GlobalStyle() {
     <>
       <Global
         styles={css`
-          html {
-            background-color: gray;
+          html,
+          body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
           }
-          .global-color {
+
+          *,
+          *::before,
+          *::after {
+            box-sizing: border-box;
           }
-          .some-class {
-            position: relative;
-            &::after {
-              position: absolute;
-              content: "";
-              width: 8px;
-              height: 8px;
-              border-radius: 50%;
-              background-color: cyan;
-            }
+
+          a {
+            text-decoration: none;
+            color: black;
           }
         `}
       />

@@ -299,4 +299,6 @@ const light = {
   zIndex: { ...zIndex },
 };
 
+export type OveridedTheme = typeof light;
+
 export { light };

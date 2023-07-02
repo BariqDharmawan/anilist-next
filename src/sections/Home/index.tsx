@@ -1,8 +1,19 @@
 import Image from "next/image";
+import Link from "next/link";
+import { PropsWithChildren } from "react";
 import { useRouter } from "next/router";
 
 import { useQueryMediaPageQuery } from "../../graphql/generated";
-import { PropsWithChildren } from "react";
+import {
+  AnimeListContainer,
+  AnimeListWrapper,
+  StyledPagination,
+  PaginationPage,
+  AnimeTitle,
+} from "./Home.styled";
+
+import Card from "@/src/components/Card";
+import Button from "@/src/components/Button";
 
 interface Props {
   page: number;
@@ -22,24 +33,24 @@ export default function Home({ page }: Props) {
     children,
   }: PropsWithChildren<{ isLoading?: boolean }>) => {
     return (
-      <div>
-        <div>
-          <button
+      <AnimeListContainer>
+        <StyledPagination>
+          <Button
             disabled={isLoading || page <= 1}
             onClick={() => router.push(`?page=${page - 1}`)}
           >
             prev
-          </button>
-          <span>{page}</span>
-          <button
+          </Button>
+          <PaginationPage>{page}</PaginationPage>
+          <Button
             disabled={isLoading}
             onClick={() => router.push(`?page=${page + 1}`)}
           >
             next
-          </button>
-        </div>
+          </Button>
+        </StyledPagination>
         {children}
-      </div>
+      </AnimeListContainer>
     );
   };
 
@@ -62,19 +73,21 @@ export default function Home({ page }: Props) {
 
   return (
     <PaginationWrapper>
-      <div>
+      <AnimeListWrapper>
         {data.Page?.media?.map((anime) => (
-          <div key={anime?.id}>
-            <span>{anime?.title?.romaji}</span>
-            <Image
-              src={anime?.bannerImage ?? ""}
-              alt={"anime"}
-              width={40}
-              height={40}
-            />
-          </div>
+          <Link href={`/anime/${anime?.id}`} key={anime?.id}>
+            <Card>
+              <AnimeTitle>{anime?.title?.romaji}</AnimeTitle>
+              <Image
+                src={anime?.bannerImage ?? ""}
+                alt={"anime"}
+                width={40}
+                height={40}
+              />
+            </Card>
+          </Link>
         ))}
-      </div>
+      </AnimeListWrapper>
     </PaginationWrapper>
   );
 }

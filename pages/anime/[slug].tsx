@@ -1,3 +1,6 @@
+import ClientOnly from "@/src/components/ClientOnly";
+import { useQueryAnimeDetailQuery } from "@/src/graphql/generated";
+import AnimeDetail from "@/src/sections/AnimeDetail";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 
@@ -9,5 +12,9 @@ export default function Detail() {
   const router = useRouter();
   const params = router.query as Params;
 
-  return <div>Params {params.slug}</div>;
+  return (
+    <ClientOnly>
+      <AnimeDetail id={params.slug} />
+    </ClientOnly>
+  );
 }

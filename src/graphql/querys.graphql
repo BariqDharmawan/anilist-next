@@ -20,3 +20,22 @@ query QueryMediaPage($page: Int, $perPage: Int) {
       }
     }
   }
+
+query QueryAnimeDetail($id: Int, $asHtml: Boolean){
+  Media(id: $id){
+    title{
+      romaji
+    }
+    genres
+    favourites
+    rankings{
+      id
+      year
+      rank
+    }
+    coverImage {
+      large
+    }
+    description(asHtml: $asHtml)
+  }
+}
