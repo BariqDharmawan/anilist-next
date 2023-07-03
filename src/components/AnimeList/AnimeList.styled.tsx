@@ -26,3 +26,12 @@ export const AnimeTitle = styled.h2`
 	font-weight: 500;
 	font-size: 0.8rem;
 `
+
+export const AnimateDesc = styled.div`
+	p {
+		color: red;
+	}
+
+	br {
+	}
+`

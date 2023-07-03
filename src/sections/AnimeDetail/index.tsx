@@ -1,19 +1,28 @@
+import { AnimateDesc } from '@/src/components/AnimeList/AnimeList.styled'
 import Button from '@/src/components/Button'
-import ClientOnly from '@/src/components/ClientOnly'
-import CollectionModal from '@/src/components/Collections/CollectionModal'
-import ImageDefaultError from '@/src/components/Img/ImageDefaultError'
+import CollectionForm from '@/src/components/Collections/CollectionForm'
+import Modal from '@/src/components/Modal/Index'
 import { useQueryAnimeDetailQuery } from '@/src/graphql/generated'
+import useHandleModal from '@/src/hooks/useHandleModal'
+import getCollection from '@/src/lib/getCollection'
+import { AnimeCollection } from '@/src/types'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Props {
 	id: string
 }
 
 export default function AnimeDetail({ id }: Props) {
-	const [showModal, setShowModal] = useState(false)
+	const { showModal, handleClose, setShowModal } = useHandleModal()
 
-	const { data, loading, error } = useQueryAnimeDetailQuery({
+	const [collections, setCollections] = useState<AnimeCollection[]>([])
+
+	useEffect(() => {
+		setCollections(getCollection())
+	}, [showModal])
+
+	const { data } = useQueryAnimeDetailQuery({
 		variables: {
 			id: parseInt(id),
 			asHtml: true,
@@ -54,18 +63,20 @@ export default function AnimeDetail({ id }: Props) {
 			{data?.Media?.description && (
 				<div>
 					<h3>Description</h3>
-					<div
+
+					<AnimateDesc
 						dangerouslySetInnerHTML={{
-							__html: data?.Media?.description,
+							__html: data.Media.description,
 						}}
 					/>
 				</div>
 			)}
-			<CollectionModal
-				isShow={showModal}
-				setShow={setShowModal}
-				animeId={id}
-			/>
+
+			<Modal isShow={showModal} handleClose={handleClose}>
+				<CollectionForm
+					{...{ handleClose, collections, animeId: id }}
+				/>
+			</Modal>
 		</div>
 	)
 }

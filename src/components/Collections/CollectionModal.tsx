@@ -34,7 +34,7 @@ export default function CollectionModal({ isShow, setShow, animeId }: Props) {
 			setCollections(currentCollection)
 		}
 
-		document.body.style.overflow = 'hidden'
+		isShow && (document.body.style.overflow = 'hidden')
 		getCollection()
 		return () => {
 			document.body.style.overflow = ''

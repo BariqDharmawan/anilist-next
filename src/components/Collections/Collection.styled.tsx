@@ -2,16 +2,16 @@ import { keyframes } from '@emotion/react'
 import styled from '@emotion/styled'
 
 const blurEffect = keyframes`
-  0% {
-    backdrop-filter: blur(8px) opacity(0);
-  } 
-  40%{
-    backdrop-filter: blur(8px) opacity(0.8);
-  }
-  100% {
-    backdrop-filter: blur(4px) opacity(1);
-  }
-  `
+	0% {
+		backdrop-filter: blur(8px) opacity(0);
+	} 
+	40%{
+		backdrop-filter: blur(8px) opacity(0.8);
+	}
+	100% {
+		backdrop-filter: blur(4px) opacity(1);
+	}
+`
 
 export const ModalOverlay = styled.div`
 	position: fixed;
