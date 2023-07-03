@@ -28,7 +28,11 @@ export default function HomePage() {
 	})
 
 	return loading || error || !data ? (
-		<WaitingData loading={loading} error={error || !data} />
+		<WaitingData
+			loading={loading}
+			error={Boolean(error)}
+			dataNotExist={!data}
+		/>
 	) : (
 		<PaginationWrapper isLoading={loading} page={page} router={router}>
 			<AnimeListWrapper>

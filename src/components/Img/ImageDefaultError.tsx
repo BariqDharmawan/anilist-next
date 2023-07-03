@@ -23,6 +23,8 @@ const ImageDefaultError = ({
 			alt={alt}
 			src={src ? pathImg(src) : '/images/default.jpg'}
 			onError={handleImgError}
+			priority
+			sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 			{...props}
 		/>
 	) : (
@@ -31,6 +33,8 @@ const ImageDefaultError = ({
 			alt={alt}
 			src={src ? pathImg(src) : '/images/default.jpg'}
 			onError={handleImgError}
+			priority
+			sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 			{...props}
 		/>
 	)
