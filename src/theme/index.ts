@@ -9,6 +9,12 @@ const black = {
 	black: '#100F10',
 }
 
+const grays = {
+	gray100: '#f7f7f7',
+	gray200: '#f0f0f0',
+	gray300: '#ededed',
+}
+
 const blues = {
 	b100: '#b9e4ff',
 	b200: '#3d94c9',
@@ -285,6 +291,7 @@ const light = {
 	color: {
 		...applicationColors,
 		...black,
+		...grays,
 		...statusColors,
 		...blues,
 		...darkColors,

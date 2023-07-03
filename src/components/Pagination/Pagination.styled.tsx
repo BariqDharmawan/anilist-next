@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 export const StyledPagination = styled.div`
 	display: flex;
 	gap: 1rem;
-	margin: auto;
+	margin: 1rem auto 0;
 	align-items: center;
 `
 

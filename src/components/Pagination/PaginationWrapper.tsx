@@ -6,30 +6,41 @@ import { NextRouter } from 'next/router'
 
 const PaginationWrapper = ({
 	router,
+	availablePages = null,
 	page,
 	isLoading = false,
 	children,
 }: PropsWithChildren<{
 	isLoading?: boolean
 	page: number
+	availablePages: number[] | null
 	router: NextRouter
 }>) => {
 	return (
 		<AnimeListContainer>
+			{children}
 			<StyledPagination>
 				<Button
 					disabled={isLoading || page <= 1}
 					onClick={() => router.push(`?page=${page - 1}`)}>
 					prev
 				</Button>
-				<PaginationPage>{page}</PaginationPage>
+
+				{availablePages?.map(eachPage => (
+					<Button
+						key={`page-${eachPage}`}
+						disabled={eachPage === page}
+						onClick={() => router.push(`?page=${eachPage}`)}>
+						{eachPage}
+					</Button>
+				))}
+
 				<Button
 					disabled={isLoading}
 					onClick={() => router.push(`?page=${page + 1}`)}>
 					next
 				</Button>
 			</StyledPagination>
-			{children}
 		</AnimeListContainer>
 	)
 }

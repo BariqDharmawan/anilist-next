@@ -8,5 +8,11 @@ export const ButtonBaseStyled = styled.button`
 	cursor: pointer;
 	border: none;
 	outline: none;
+	text-transform: capitalize;
 	border-radius: 8px;
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: auto;
+	}
 `
