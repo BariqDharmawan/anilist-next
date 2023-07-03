@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled'
 
 const Input = styled.input`
-  width: 100%;
-`;
+	width: 100%;
+`
