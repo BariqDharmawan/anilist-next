@@ -115,6 +115,13 @@ const breakpoints = {
   xxl: "1440px",
 };
 
+const mediaQuerys = Object.fromEntries(
+  Object.entries(breakpoints).map(([key, bp]) => [
+    key,
+    `@media (min-width: ${bp}px)`,
+  ])
+) as typeof breakpoints;
+
 /**
  * ===============================
  * Icon size tokens
@@ -301,4 +308,4 @@ const light = {
 
 export type OveridedTheme = typeof light;
 
-export { light };
+export { light, mediaQuerys };

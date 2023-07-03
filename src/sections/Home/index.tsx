@@ -10,6 +10,7 @@ import {
   StyledPagination,
   PaginationPage,
   AnimeTitle,
+  CoverAnime,
 } from "./Home.styled";
 
 import Card from "@/src/components/Card";
@@ -74,19 +75,19 @@ export default function Home({ page }: Props) {
   return (
     <PaginationWrapper>
       <AnimeListWrapper>
-        {data.Page?.media?.map((anime) => (
-          <Link href={`/anime/${anime?.id}`} key={anime?.id}>
-            <Card>
+        {data.Page?.media?.map((anime) => {
+          const imageCover =
+            anime?.coverImage?.large ?? anime?.coverImage?.medium;
+
+          return (
+            <Link href={`/anime/${anime?.id}`} key={anime?.id}>
+              <CoverAnime>
+                {imageCover && <Image src={imageCover} alt={"anime"} fill />}
+              </CoverAnime>
               <AnimeTitle>{anime?.title?.romaji}</AnimeTitle>
-              <Image
-                src={anime?.bannerImage ?? ""}
-                alt={"anime"}
-                width={40}
-                height={40}
-              />
-            </Card>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </AnimeListWrapper>
     </PaginationWrapper>
   );
