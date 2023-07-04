@@ -2,6 +2,8 @@ import { COLLECTION_KEY_STORAGE } from '../constants';
 import { AnimeCollection } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
+type ErrorMsg = string | null;
+
 export const withoutSpecialChar = /^[a-zA-Z0-9.]*$/;
 
 export function checkSpecialChar(str: string): boolean {
@@ -27,16 +29,39 @@ export function getAnimeCollection(): AnimeCollection[] {
 	return JSON.parse(currentCollectionsStr);
 }
 
-export function createNewAnimeCollection(name: string, data: string): void {
+export const checkCollectionContain = (collectionName: string) => {
+	const collections = getAnimeCollection();
+
+	return collections.some(collection => collection.name === collectionName);
+};
+
+export function createNewAnimeCollection(
+	name: string,
+	data?: string[]
+): ErrorMsg {
+	if (!name) {
+		return 'Collection name must contain';
+	}
+	if (checkSpecialChar(name)) {
+		return 'Collection name must not contain special characters';
+	}
+
+	if (checkCollectionContain(name)) {
+		return 'Collection name Already exist';
+	}
+
 	const currentCollections = getAnimeCollection();
 	const newCollection: AnimeCollection = {
 		id: uuidv4(),
 		name,
-		list: [data],
+		list: data ?? [],
 	};
+
 	if (currentCollections.length === 0) {
 		setCollectionLocalStorage([newCollection]);
-		return;
+		return null;
 	}
+
 	setCollectionLocalStorage([...currentCollections, newCollection]);
+	return null;
 }

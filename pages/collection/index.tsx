@@ -5,8 +5,9 @@ export default function Collection() {
 	return (
 		<div>
 			<h1>Collection List</h1>
-
-			<CollectionList />
+			<ClientOnly>
+				<CollectionList />
+			</ClientOnly>
 		</div>
 	);
 }

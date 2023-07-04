@@ -8,45 +8,27 @@ import {
 } from '@/src/lib/utils';
 
 interface CreateCollectionProps {
-	id: string;
-	afterSubmit: () => void;
+	afterSubmit?: (collectionName: string) => void;
 }
 
 export default function CreateCollection({
-	id,
 	afterSubmit,
 }: CreateCollectionProps) {
-	const [collectionName, setCollectionName] = useState<string | undefined>();
-
-	const checkCollectionContain = (_collectionName: string) => {
-		const collections = getAnimeCollection();
-
-		return collections.some(
-			collection => collection.name === _collectionName
-		);
-	};
+	const [collectionName, setCollectionName] = useState('');
 
 	const handleCreate = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		if (!collectionName) {
-			toast.error('Collection name must contain');
+		const errorMsg = createNewAnimeCollection(collectionName!);
+		if (errorMsg) {
+			toast.error(errorMsg);
 			return;
 		}
 
-		if (checkSpecialChar(collectionName)) {
-			toast.error('Collection name must not contain special characters');
-			return;
-		}
-
-		if (checkCollectionContain(collectionName)) {
-			toast.error('Collection name Already exist');
-			return;
-		}
-
-		createNewAnimeCollection(collectionName, id);
 		toast.success(`Success Create New Collection`);
-		afterSubmit();
+		if (afterSubmit) {
+			afterSubmit(collectionName!)!;
+		}
 	};
 
 	return (

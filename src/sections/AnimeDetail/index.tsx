@@ -5,6 +5,7 @@ import Modal from '@/src/components/Modal/Index';
 import { useQueryAnimeDetailQuery } from '@/src/graphql/generated';
 import useHandleModal from '@/src/hooks/useHandleModal';
 import getCollection from '@/src/lib/getCollection';
+import { createNewAnimeCollection } from '@/src/lib/utils';
 import { AnimeCollection } from '@/src/types';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -74,7 +75,12 @@ export default function AnimeDetail({ id }: Props) {
 
 			<Modal isShow={showModal} handleClose={handleClose}>
 				<CollectionForm
-					{...{ handleClose, collections, animeId: id }}
+					initTab='add'
+					animeId={id}
+					afterCreate={collectionName => {
+						createNewAnimeCollection(collectionName, [id]);
+					}}
+					{...{ handleClose, collections }}
 				/>
 			</Modal>
 		</div>

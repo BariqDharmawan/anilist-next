@@ -58,8 +58,6 @@ export default function HomePage() {
 		(_, i) => pageStart + i
 	);
 
-	console.log('pagePaginationShowed', pagePaginationShowed);
-
 	const { isMoreThanPhone, isMoreThanTablet, isMoreThanDesktop } =
 		useMatchMedia();
 

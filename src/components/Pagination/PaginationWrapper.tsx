@@ -1,20 +1,13 @@
 import { StyledPagination } from './Pagination.styled';
-import Button from '../Button';
-import { NextRouter } from 'next/router';
 import PaginationLink from './PaginationLink';
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 
-const PaginationWrapper = ({
-	router,
-	availablePages = null,
-	page,
-	isLoading = false,
-}: {
-	router: NextRouter;
-	availablePages: number[] | null;
+interface Props {
 	page: number;
-	isLoading?: boolean;
-}) => {
+	availablePages: number[] | null;
+}
+
+const PaginationWrapper = ({ availablePages = null, page }: Props) => {
 	return (
 		<StyledPagination>
 			{page > 1 && (
