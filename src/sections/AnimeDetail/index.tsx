@@ -79,6 +79,7 @@ export default function AnimeDetail({ id }: Props) {
 					animeId={id}
 					afterCreate={collectionName => {
 						createNewAnimeCollection(collectionName, [id])
+						handleClose()
 					}}
 					{...{ handleClose, collections }}
 				/>

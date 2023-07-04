@@ -45,7 +45,9 @@ export default function CollectionForm({
 				</>
 			)}
 			{collections && collections.length !== 0 && activeTab === 'add' ? (
-				<AddToCollection {...{ collections, animeId }} />
+				<AddToCollection
+					{...{ collections, animeId, afterSubmit: handleClose }}
+				/>
 			) : (
 				<CreateCollection afterSubmit={afterCreate} />
 			)}

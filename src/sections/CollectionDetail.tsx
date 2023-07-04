@@ -19,6 +19,7 @@ import { useRouter } from 'next/router'
 import client from '../lib/apollo-client'
 import Button from '../components/Button'
 import ModalEditCollection from '../components/Collections/ModalEditCollection'
+import { setCollectionLocalStorage } from '../lib/utils'
 
 interface Props {
 	slug: string
@@ -31,8 +32,30 @@ export default function CollectionDetail({ slug }: Props) {
 	const [editMode, setEditMode] = useState(false)
 	const [isMoreThanPhone, setIsMoreThanPhone] = useState(false)
 
+	const handleRemoveAnime = async (id: string) => {
+		const collections = getCollection()
+
+		const editedIdx = collections.findIndex(c => c.id === slug)
+
+		const copyCollection = { ...collection! }
+
+		copyCollection.list = copyCollection.list.filter(l => l !== id)
+
+		collections[editedIdx] = copyCollection
+
+		setCollectionLocalStorage(collections)
+		setCollection(copyCollection)
+
+		fetchData(copyCollection)
+	}
+
 	const fetchData = async (_collection: AnimeCollection) => {
 		try {
+			if (_collection.list.length === 0) {
+				setAnimeList(null)
+				return
+			}
+
 			const result = await client.query<
 				QueryMediaPageQuery,
 				QueryMediaPageQueryVariables
@@ -83,9 +106,10 @@ export default function CollectionDetail({ slug }: Props) {
 					const coverCol = isMoreThanPhone ? 'large' : 'medium'
 					const imgCover = anime?.coverImage?.[coverCol]
 
+					if (!anime) return null
 					return (
-						<Card padding='s' key={anime?.id}>
-							<Link href={`/anime/${anime?.id}`}>
+						<Card padding='s' key={anime.id}>
+							<Link href={`/anime/${anime.id}`}>
 								<CoverAnime>
 									<ImageDefaultError
 										src={imgCover}
@@ -93,9 +117,14 @@ export default function CollectionDetail({ slug }: Props) {
 										fill
 									/>
 								</CoverAnime>
-								<AnimeTitle>{anime?.title?.romaji}</AnimeTitle>
+								<AnimeTitle>{anime.title?.romaji}</AnimeTitle>
 							</Link>
-							<Button>Remove</Button>
+							<Button
+								onClick={() =>
+									handleRemoveAnime(anime.id.toString())
+								}>
+								Remove
+							</Button>
 						</Card>
 					)
 				})}
