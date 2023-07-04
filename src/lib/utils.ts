@@ -29,10 +29,21 @@ export function getAnimeCollection(): AnimeCollection[] {
 	return JSON.parse(currentCollectionsStr)
 }
 
-export const checkCollectionContain = (collectionName: string) => {
+export function checkCollectionContain(collectionName: string): boolean {
 	const collections = getAnimeCollection()
 
 	return collections.some(collection => collection.name === collectionName)
+}
+
+export function removeCollection(id: string): AnimeCollection[] {
+	const collections = getAnimeCollection()
+
+	const newCollection = collections.filter(collection => {
+		return collection.id !== id
+	})
+
+	setCollectionLocalStorage(newCollection)
+	return newCollection
 }
 
 export function createNewAnimeCollection(

@@ -9,6 +9,7 @@ import ImageDefaultError from '@/src/components/Img/ImageDefaultError'
 import Button from '@/src/components/Button'
 import Modal from '@/src/components/Modal/Index'
 import CollectionForm from '@/src/components/Collections/CollectionForm'
+import ModalRemoveCollection from '@/src/components/Collections/ModalRemoveCollection'
 
 interface CollectionListType extends AnimeCollection {
 	imageSrc?: string | null
@@ -16,6 +17,7 @@ interface CollectionListType extends AnimeCollection {
 
 export default function CollectionList() {
 	const [modalCollection, setModalCollection] = useState(false)
+	const [modalRemove, setModalRemove] = useState<AnimeCollection | null>(null)
 	const [collections, setCollections] = useState(getAnimeCollection())
 
 	const mediaIds: number[] = collections.reduce((result, current) => {
@@ -58,18 +60,26 @@ export default function CollectionList() {
 				Create New Collection
 			</Button>
 			{collectionList.map(collection => (
-				<Link href={`/collection/${collection.id}`} key={collection.id}>
-					<div>
-						<p>Collection name: {collection.name}</p>
-						<ImageDefaultError
-							src={collection.imageSrc}
-							alt='cover-img'
-							width={120}
-							height={80}
-						/>
-						<p>Contains {collection.list.length} anime</p>
-					</div>
-				</Link>
+				<div>
+					<Link
+						href={`/collection/${collection.id}`}
+						key={collection.id}>
+						<div>
+							<p>Collection name: {collection.name}</p>
+							<ImageDefaultError
+								src={collection.imageSrc}
+								alt='cover-img'
+								width={120}
+								height={80}
+							/>
+							<p>Contains {collection.list.length} anime</p>
+						</div>
+					</Link>
+					{/* Remove Collection */}
+					<Button onClick={() => setModalRemove(collection)}>
+						Remove
+					</Button>
+				</div>
 			))}
 			<Modal isShow={modalCollection} handleClose={handleClose}>
 				<CollectionForm
@@ -82,6 +92,11 @@ export default function CollectionList() {
 					handleClose={handleClose}
 				/>
 			</Modal>
+			<ModalRemoveCollection
+				collection={modalRemove}
+				setCollection={setCollections}
+				handleClose={() => setModalRemove(null)}
+			/>
 		</ClientOnly>
 	)
 }
