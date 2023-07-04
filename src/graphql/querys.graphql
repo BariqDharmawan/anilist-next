@@ -7,11 +7,24 @@ query QueryMediaPage($page: Int, $perPage: Int) {
 			hasNextPage
 			perPage
 		}
-		media {
+		media(type: ANIME) {
 			id
 			title {
 				romaji
 			}
+			coverImage {
+				large
+				medium
+			}
+			bannerImage
+		}
+	}
+}
+
+query QueryMediaCollection($page: Int, $perPage: Int, $where_media_id: [Int]){
+	Page(page: $page, perPage: $perPage, ) {
+		media(id_in: $where_media_id, type: ANIME) {
+			id
 			coverImage {
 				large
 				medium

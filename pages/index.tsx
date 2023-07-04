@@ -22,6 +22,10 @@ export default function HomePage() {
 	const params = router.query as Params
 	const page = params.page !== undefined ? parseInt(params.page) : 1
 
+	const [isMoreThanPhone, setIsMoreThanPhone] = useState(false)
+	const [isMoreThanTablet, setIsMoreThanTablet] = useState(false)
+	const [isMoreThanDesktop, setIsMoreThanDesktop] = useState(false)
+
 	const { data, loading, error } = useQueryMediaPageQuery({
 		variables: {
 			page,
@@ -62,11 +66,6 @@ export default function HomePage() {
 	)
 
 	console.log('pagePaginationShowed', pagePaginationShowed)
-
-	const [isMoreThanPhone, setIsMoreThanPhone] = useState(false)
-	const [isMoreThanTablet, setIsMoreThanTablet] = useState(false)
-	const [isMoreThanDesktop, setIsMoreThanDesktop] = useState(false)
-
 	useEffect(() => {
 		window.matchMedia('(min-width: 768px)').matches &&
 			setIsMoreThanPhone(true)

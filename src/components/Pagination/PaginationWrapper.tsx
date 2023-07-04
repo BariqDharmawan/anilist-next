@@ -4,18 +4,20 @@ import { PaginationPage, StyledPagination } from './Pagination.styled'
 import Button from '../Button'
 import { NextRouter } from 'next/router'
 
+interface Props {
+	isLoading?: boolean
+	page: number
+	availablePages: number[] | null
+	router: NextRouter
+}
+
 const PaginationWrapper = ({
 	router,
 	availablePages = null,
 	page,
 	isLoading = false,
 	children,
-}: PropsWithChildren<{
-	isLoading?: boolean
-	page: number
-	availablePages: number[] | null
-	router: NextRouter
-}>) => {
+}: PropsWithChildren<Props>) => {
 	return (
 		<AnimeListContainer>
 			{children}
