@@ -4,8 +4,11 @@ import styled from '@emotion/styled';
 export const StyledPagination = styled.ul`
 	display: flex;
 	gap: 1rem;
+	padding: 0;
 	margin: 1rem auto 0;
 	align-items: center;
+	width: 100%;
+	overflow: hidden;
 `;
 
 export const PaginationPage = styled.span`
@@ -16,8 +19,8 @@ export const PaginationPage = styled.span`
 export const PaginationLinkStyle = styled.li`
 	font-size: 1rem;
 	width: 1.75rem;
-	display: flex;
 	height: 1.75rem;
+	display: flex;
 	overflow: hidden;
 	border-radius: 50%;
 	color: ${light.color.gGoto};

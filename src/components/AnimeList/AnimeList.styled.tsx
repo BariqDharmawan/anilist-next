@@ -21,16 +21,7 @@ export const AnimeListWrapper = styled.div`
 `;
 
 export const CoverAnime = styled.div`
-	position: relative;
-	width: 100%;
-	height: 100px;
-	overflow: hidden;
-	background-color: ${light.color.gray100};
-	border-radius: 4px;
-
-	img {
-		object-fit: cover;
-	}
+	height: 150px;
 
 	@media screen and (min-width: ${laptop}) {
 		height: 248px;

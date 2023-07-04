@@ -1,5 +1,8 @@
 import ImageDefaultError from '@/src/components/Img/ImageDefaultError';
-import { useQueryMediaPageQuery } from '@/src/graphql/generated';
+import {
+	QueryMediaPageQuery,
+	useQueryMediaPageQuery,
+} from '@/src/graphql/generated';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
@@ -13,6 +16,10 @@ import PaginationWrapper from '@/src/components/Pagination/PaginationWrapper';
 import Card from '@/src/components/Card';
 import useMatchMedia from '@/src/hooks/useMatchMedia';
 import { ParamPage } from '@/src/lib/allInterface';
+import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
+import { useEffect, useState } from 'react';
+import StickyBoxAction from '@/src/components/StickyBoxAction/Index';
+import { createPortal } from 'react-dom';
 
 export default function HomePage() {
 	const router = useRouter();
@@ -26,7 +33,15 @@ export default function HomePage() {
 		},
 	});
 
-	console.log('data', data);
+	const [localAnime, setLocalAnime] = useState<
+		QueryMediaPageQuery | undefined
+	>();
+
+	useEffect(() => {
+		setLocalAnime(data);
+	}, [data]);
+
+	console.log('data', localAnime);
 
 	let pageStart =
 		(data?.Page?.pageInfo?.currentPage ?? 1) <
@@ -58,8 +73,18 @@ export default function HomePage() {
 		(_, i) => pageStart + i
 	);
 
-	const { isMoreThanPhone, isMoreThanTablet, isMoreThanDesktop } =
-		useMatchMedia();
+	const { isMoreThanPhone } = useMatchMedia();
+
+	const [selectedAnime, setSelectedAnime] = useState<number[]>([]);
+	const handleAddToCollection = (animeId: number) => {
+		setSelectedAnime(prevSelectedAnime => {
+			return prevSelectedAnime.includes(animeId)
+				? prevSelectedAnime.filter(id => id !== animeId)
+				: [...prevSelectedAnime, animeId];
+		});
+	};
+
+	console.log('selectedAnime', selectedAnime);
 
 	return loading || error || !data ? (
 		<WaitingData
@@ -70,10 +95,8 @@ export default function HomePage() {
 	) : (
 		<AnimeListContainer>
 			<PaginationWrapper
-				isLoading={loading}
 				page={page}
 				availablePages={pagePaginationShowed}
-				router={router}
 			/>
 
 			<AnimeListWrapper>
@@ -82,21 +105,65 @@ export default function HomePage() {
 					const imgCover = anime?.coverImage?.[coverCol];
 
 					return (
-						<Card padding='s' key={anime?.id}>
-							<Link href={`/anime/${anime?.id}`}>
+						<Card
+							padding='s'
+							key={anime?.id}
+							cover={
 								<CoverAnime>
-									<ImageDefaultError
-										src={imgCover}
-										alt='cover anime'
-										fill
-									/>
+									<Link href={`/anime/${anime?.id}`}>
+										<ImageDefaultError
+											src={imgCover}
+											alt='cover anime'
+											fill
+										/>
+									</Link>
 								</CoverAnime>
-								<AnimeTitle>{anime?.title?.romaji}</AnimeTitle>
-							</Link>
+							}>
+							<div>
+								<label
+									htmlFor={`checkbox-anime-${anime?.id}`}
+									style={{
+										position: 'relative',
+										cursor: 'pointer',
+									}}>
+									<input
+										type='checkbox'
+										id={`checkbox-anime-${anime?.id}`}
+										value={anime?.id}
+										style={{
+											position: 'absolute',
+											left: '-999999999',
+											opacity: 0,
+											width: 0,
+											height: 0,
+										}}
+										onClick={e =>
+											handleAddToCollection(
+												Number(
+													(
+														e.currentTarget as HTMLInputElement
+													).value
+												)
+											)
+										}
+									/>
+
+									{selectedAnime.includes(anime!.id) ? (
+										<BiSolidBookmark />
+									) : (
+										<BiBookmark />
+									)}
+								</label>
+							</div>
+
+							<AnimeTitle>{anime?.title?.romaji}</AnimeTitle>
 						</Card>
 					);
 				})}
 			</AnimeListWrapper>
+
+			{selectedAnime.length &&
+				createPortal(<StickyBoxAction />, document.body)}
 		</AnimeListContainer>
 	);
 }
