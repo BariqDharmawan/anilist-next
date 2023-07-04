@@ -1,13 +1,13 @@
-import styled from '@emotion/styled'
-import { light } from '@/src/theme/index'
-import { laptop } from '@/src/theme/mediaQuery'
+import styled from '@emotion/styled';
+import { light } from '@/src/theme/index';
+import { laptop } from '@/src/theme/mediaQuery';
 
 export const AnimeListContainer = styled.div`
 	display: grid;
 	max-width: ${props => props.theme.breakpoint.l};
 	margin: auto;
 	padding: 1rem;
-`
+`;
 
 export const AnimeListWrapper = styled.div`
 	margin-top: 24px;
@@ -18,7 +18,7 @@ export const AnimeListWrapper = styled.div`
 	@media screen and (min-width: ${laptop}) {
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 	}
-`
+`;
 
 export const CoverAnime = styled.div`
 	position: relative;
@@ -35,13 +35,13 @@ export const CoverAnime = styled.div`
 	@media screen and (min-width: ${laptop}) {
 		height: 248px;
 	}
-`
+`;
 
 export const AnimeTitle = styled.h2`
 	font-weight: 500;
 	font-size: 0.8rem;
 	text-transform: capitalize;
-`
+`;
 
 export const AnimateDesc = styled.div`
 	p {
@@ -50,4 +50,4 @@ export const AnimateDesc = styled.div`
 
 	br {
 	}
-`
+`;

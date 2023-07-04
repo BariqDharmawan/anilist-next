@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 export const ButtonBaseStyled = styled.button`
 	padding-inline: 1rem;
@@ -15,4 +15,4 @@ export const ButtonBaseStyled = styled.button`
 		opacity: 0.5;
 		cursor: auto;
 	}
-`
+`;

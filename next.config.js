@@ -5,6 +5,6 @@ const nextConfig = {
 	images: {
 		domains: ['s4.anilist.co', 'placehold.co'],
 	},
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

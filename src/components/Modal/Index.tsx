@@ -1,10 +1,10 @@
-import { PropsWithChildren, useEffect } from 'react'
-import { createPortal } from 'react-dom'
-import { ModalOverlay } from '../Collections/Collection.styled'
+import { PropsWithChildren, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { ModalOverlay } from '../Collections/Collection.styled';
 
 interface Props {
-	isShow: boolean
-	handleClose: () => void
+	isShow: boolean;
+	handleClose: () => void;
 }
 
 export default function Modal({
@@ -13,12 +13,12 @@ export default function Modal({
 	children,
 }: PropsWithChildren<Props>) {
 	useEffect(() => {
-		isShow && (document.body.style.overflow = 'hidden')
+		isShow && (document.body.style.overflow = 'hidden');
 
 		return () => {
-			document.body.style.overflow = ''
-		}
-	}, [isShow])
+			document.body.style.overflow = '';
+		};
+	}, [isShow]);
 
 	return (
 		<>
@@ -27,7 +27,7 @@ export default function Modal({
 					<ModalOverlay
 						onClick={event => {
 							if (event.currentTarget === event.target) {
-								handleClose()
+								handleClose();
 							}
 						}}>
 						{children}
@@ -35,5 +35,5 @@ export default function Modal({
 					document.body
 				)}
 		</>
-	)
+	);
 }

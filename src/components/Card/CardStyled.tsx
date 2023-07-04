@@ -1,33 +1,33 @@
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 interface CardBaseProp {
 	theme: {
 		boxShadow: {
-			card: string
-		}
+			card: string;
+		};
 		borderRadius: {
-			m: string
-		}
+			m: string;
+		};
 		space: {
-			xl: string
-		}
-	}
+			xl: string;
+		};
+	};
 }
 
 const CardBase = (props: CardBaseProp) => css`
 	box-shadow: ${props.theme.boxShadow.card};
 	border-radius: ${props.theme.borderRadius.m};
-`
+`;
 
 const CardXL = styled.div`
 	${CardBase}
 	padding: ${props => props.theme.space.xl};
-`
+`;
 
 const CardSM = styled.div`
 	${CardBase}
 	padding: ${props => props.theme.space.s};
-`
+`;
 
-export { CardSM, CardXL }
+export { CardSM, CardXL };

@@ -1,5 +1,5 @@
-import ClientOnly from '@/src/components/ClientOnly'
-import CollectionList from '@/src/sections/CollectionList'
+import ClientOnly from '@/src/components/ClientOnly';
+import CollectionList from '@/src/sections/CollectionList';
 
 export default function Collection() {
 	return (
@@ -8,5 +8,5 @@ export default function Collection() {
 
 			<CollectionList />
 		</div>
-	)
+	);
 }

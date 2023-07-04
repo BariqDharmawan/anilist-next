@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import { getAnimeCollection } from '@/src/lib/utils'
-import Link from 'next/link'
-import ClientOnly from '@/src/components/ClientOnly'
+import { useState } from 'react';
+import { getAnimeCollection } from '@/src/lib/utils';
+import Link from 'next/link';
+import ClientOnly from '@/src/components/ClientOnly';
 
 export default function CollectionList() {
-	const [collections, setCollections] = useState(getAnimeCollection())
+	const [collections, setCollections] = useState(getAnimeCollection());
 
 	return (
 		<ClientOnly>
@@ -17,5 +17,5 @@ export default function CollectionList() {
 				</Link>
 			))}
 		</ClientOnly>
-	)
+	);
 }

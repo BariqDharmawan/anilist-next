@@ -1,11 +1,11 @@
-import toast from 'react-hot-toast'
-import { deepCopyObject, setCollectionLocalStorage } from '@/src/lib/utils'
-import { AnimeCollection } from '@/src/types'
+import toast from 'react-hot-toast';
+import { deepCopyObject, setCollectionLocalStorage } from '@/src/lib/utils';
+import { AnimeCollection } from '@/src/types';
 
 interface AddToCollectionProps {
-	collections: AnimeCollection[]
-	animeId: string
-	afterSubmit: () => void
+	collections: AnimeCollection[];
+	animeId: string;
+	afterSubmit: () => void;
 }
 
 export default function AddToCollection({
@@ -14,17 +14,17 @@ export default function AddToCollection({
 	afterSubmit,
 }: AddToCollectionProps) {
 	const handleAddCollection = (collectionName: string, data: string) => {
-		const copyCollections = deepCopyObject(collections)
+		const copyCollections = deepCopyObject(collections);
 
 		const indexSelectCollection = copyCollections.findIndex(collection => {
-			return collection.name === collectionName
-		})
+			return collection.name === collectionName;
+		});
 
-		copyCollections[indexSelectCollection].list.push(data)
-		setCollectionLocalStorage(copyCollections)
-		toast.success('Success Add Anime to Collection')
-		afterSubmit()
-	}
+		copyCollections[indexSelectCollection].list.push(data);
+		setCollectionLocalStorage(copyCollections);
+		toast.success('Success Add Anime to Collection');
+		afterSubmit();
+	};
 
 	return (
 		<div>
@@ -40,5 +40,5 @@ export default function AddToCollection({
 				</div>
 			))}
 		</div>
-	)
+	);
 }

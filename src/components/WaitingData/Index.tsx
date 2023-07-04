@@ -3,21 +3,21 @@ const WaitingData = ({
 	error,
 	dataNotExist,
 }: {
-	loading: boolean
-	error: boolean
-	dataNotExist: boolean
+	loading: boolean;
+	error: boolean;
+	dataNotExist: boolean;
 }) => {
 	if (loading) {
-		return <div>loading...</div>
+		return <div>loading...</div>;
 	}
 
 	if (error) {
-		return <div>error</div>
+		return <div>error</div>;
 	}
 
 	if (dataNotExist) {
-		return <div>data not exist</div>
+		return <div>data not exist</div>;
 	}
-}
+};
 
-export default WaitingData
+export default WaitingData;

@@ -1,33 +1,33 @@
-import { AnimateDesc } from '@/src/components/AnimeList/AnimeList.styled'
-import Button from '@/src/components/Button'
-import CollectionForm from '@/src/components/Collections/CollectionForm'
-import Modal from '@/src/components/Modal/Index'
-import { useQueryAnimeDetailQuery } from '@/src/graphql/generated'
-import useHandleModal from '@/src/hooks/useHandleModal'
-import getCollection from '@/src/lib/getCollection'
-import { AnimeCollection } from '@/src/types'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { AnimateDesc } from '@/src/components/AnimeList/AnimeList.styled';
+import Button from '@/src/components/Button';
+import CollectionForm from '@/src/components/Collections/CollectionForm';
+import Modal from '@/src/components/Modal/Index';
+import { useQueryAnimeDetailQuery } from '@/src/graphql/generated';
+import useHandleModal from '@/src/hooks/useHandleModal';
+import getCollection from '@/src/lib/getCollection';
+import { AnimeCollection } from '@/src/types';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 interface Props {
-	id: string
+	id: string;
 }
 
 export default function AnimeDetail({ id }: Props) {
-	const { showModal, handleClose, setShowModal } = useHandleModal()
+	const { showModal, handleClose, setShowModal } = useHandleModal();
 
-	const [collections, setCollections] = useState<AnimeCollection[]>([])
+	const [collections, setCollections] = useState<AnimeCollection[]>([]);
 
 	useEffect(() => {
-		setCollections(getCollection())
-	}, [showModal])
+		setCollections(getCollection());
+	}, [showModal]);
 
 	const { data } = useQueryAnimeDetailQuery({
 		variables: {
 			id: parseInt(id),
 			asHtml: true,
 		},
-	})
+	});
 
 	return (
 		<div>
@@ -78,5 +78,5 @@ export default function AnimeDetail({ id }: Props) {
 				/>
 			</Modal>
 		</div>
-	)
+	);
 }

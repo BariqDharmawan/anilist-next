@@ -4,10 +4,10 @@
  * @property {string} name - Collection name must unique.
  */
 export type Collection<T extends any[]> = {
-	id: string
-	name: string
-	list: T
-}
+	id: string;
+	name: string;
+	list: T;
+};
 
 /**
  * This type for Collections of Anime .
@@ -15,4 +15,4 @@ export type Collection<T extends any[]> = {
  * @property {string} name - Collection name must unique.
  * @property {Array<string>} list - List contains anime Id
  */
-export type AnimeCollection = Collection<string[]>
+export type AnimeCollection = Collection<string[]>;

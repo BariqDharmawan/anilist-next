@@ -1,14 +1,14 @@
-import { GrClose } from 'react-icons/gr'
-import { AnimeCollection } from '@/src/types'
-import { CollectionCard, IconCloseWrapper } from './Collection.styled'
-import CreateCollection from './CreateCollection'
+import { GrClose } from 'react-icons/gr';
+import { AnimeCollection } from '@/src/types';
+import { CollectionCard, IconCloseWrapper } from './Collection.styled';
+import CreateCollection from './CreateCollection';
 
-import AddToCollection from './AddToCollection'
+import AddToCollection from './AddToCollection';
 
 interface Props {
-	collections: AnimeCollection[] | null
-	handleClose: () => void
-	animeId: string
+	collections: AnimeCollection[] | null;
+	handleClose: () => void;
+	animeId: string;
 }
 
 export default function CollectionForm({
@@ -30,5 +30,5 @@ export default function CollectionForm({
 				<CreateCollection afterSubmit={handleClose} id={animeId} />
 			)}
 		</CollectionCard>
-	)
+	);
 }

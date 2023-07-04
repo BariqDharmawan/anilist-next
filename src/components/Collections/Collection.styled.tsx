@@ -1,5 +1,5 @@
-import { keyframes } from '@emotion/react'
-import styled from '@emotion/styled'
+import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
 const blurEffect = keyframes`
 	0% {
@@ -11,7 +11,7 @@ const blurEffect = keyframes`
 	100% {
 		backdrop-filter: blur(4px) opacity(1);
 	}
-`
+`;
 
 export const ModalOverlay = styled.div`
 	position: fixed;
@@ -24,7 +24,7 @@ export const ModalOverlay = styled.div`
 	align-items: center;
 	justify-content: center;
 	animation: ${blurEffect} 300ms ease-in forwards;
-`
+`;
 
 export const CollectionCard = styled.div`
 	position: relative;
@@ -34,7 +34,7 @@ export const CollectionCard = styled.div`
 	max-width: 700px;
 	width: 100%;
 	transition: height 300ms ease-in-out;
-`
+`;
 
 export const IconCloseWrapper = styled.div`
 	position: absolute;
@@ -56,4 +56,4 @@ export const IconCloseWrapper = styled.div`
 			0.2
 		); /* Warna latar belakang overlay */
 	}
-`
+`;
