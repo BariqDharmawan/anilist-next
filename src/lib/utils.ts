@@ -29,11 +29,63 @@ export function getAnimeCollection(): AnimeCollection[] {
 	return JSON.parse(currentCollectionsStr);
 }
 
-export const checkCollectionContain = (collectionName: string) => {
+export function checkCollectionContain(collectionName: string): boolean {
 	const collections = getAnimeCollection();
 
 	return collections.some(collection => collection.name === collectionName);
-};
+}
+
+interface ReturnEditCollection {
+	data: AnimeCollection[] | null;
+	error: ErrorMsg;
+}
+
+export function editCollection(
+	id: string,
+	newName: string
+): ReturnEditCollection {
+	if (!newName) {
+		return {
+			data: null,
+			error: 'Collection name must contain',
+		};
+	}
+	if (checkSpecialChar(newName)) {
+		return {
+			data: null,
+			error: 'Collection name must not contain special characters',
+		};
+	}
+
+	if (checkCollectionContain(newName)) {
+		return {
+			data: null,
+			error: 'Collection name Already exist',
+		};
+	}
+	const collections = getAnimeCollection();
+	const editedIdx = collections.findIndex(collections => {
+		return collections.id === id;
+	});
+
+	collections[editedIdx].name = newName;
+
+	return {
+		data: collections,
+		error: null,
+	};
+}
+
+export function removeCollection(id: string): AnimeCollection[] {
+	const collections = getAnimeCollection();
+
+	const newCollection = collections.filter(collection => {
+		return collection.id !== id;
+	});
+
+	setCollectionLocalStorage(newCollection);
+	return newCollection;
+}
 
 export function createNewAnimeCollection(
 	name: string,

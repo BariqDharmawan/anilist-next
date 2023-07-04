@@ -1,11 +1,7 @@
 import { FormEvent, useState } from 'react';
 import toast from 'react-hot-toast';
+import { createNewAnimeCollection } from '@/src/lib/utils';
 import Button from '../Button';
-import {
-	checkSpecialChar,
-	createNewAnimeCollection,
-	getAnimeCollection,
-} from '@/src/lib/utils';
 
 interface CreateCollectionProps {
 	afterSubmit?: (collectionName: string) => void;

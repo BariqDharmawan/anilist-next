@@ -4672,6 +4672,7 @@ export type YearStats = {
 export type QueryMediaPageQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  where_media_id?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>> | InputMaybe<Scalars['Int']['input']>>;
 }>;
 
 
@@ -4696,7 +4697,7 @@ export type QueryAnimeDetailQuery = { __typename?: 'Query', Media?: { __typename
 
 
 export const QueryMediaPageDocument = gql`
-    query QueryMediaPage($page: Int, $perPage: Int) {
+    query QueryMediaPage($page: Int, $perPage: Int, $where_media_id: [Int]) {
   Page(page: $page, perPage: $perPage) {
     pageInfo {
       total
@@ -4705,7 +4706,7 @@ export const QueryMediaPageDocument = gql`
       hasNextPage
       perPage
     }
-    media(type: ANIME) {
+    media(id_in: $where_media_id, type: ANIME) {
       id
       title {
         romaji
@@ -4734,6 +4735,7 @@ export const QueryMediaPageDocument = gql`
  *   variables: {
  *      page: // value for 'page'
  *      perPage: // value for 'perPage'
+ *      where_media_id: // value for 'where_media_id'
  *   },
  * });
  */
