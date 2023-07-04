@@ -10,6 +10,7 @@ import Button from '@/src/components/Button'
 import Modal from '@/src/components/Modal/Index'
 import CollectionForm from '@/src/components/Collections/CollectionForm'
 import ModalRemoveCollection from '@/src/components/Collections/ModalRemoveCollection'
+import ModalEditCollection from '@/src/components/Collections/ModalEditCollection'
 
 interface CollectionListType extends AnimeCollection {
 	imageSrc?: string | null
@@ -18,6 +19,8 @@ interface CollectionListType extends AnimeCollection {
 export default function CollectionList() {
 	const [modalCollection, setModalCollection] = useState(false)
 	const [modalRemove, setModalRemove] = useState<AnimeCollection | null>(null)
+	const [editModalCollection, setEditModalCollection] =
+		useState<AnimeCollection | null>(null)
 	const [collections, setCollections] = useState(getAnimeCollection())
 
 	const mediaIds: number[] = collections.reduce((result, current) => {
@@ -75,6 +78,10 @@ export default function CollectionList() {
 							<p>Contains {collection.list.length} anime</p>
 						</div>
 					</Link>
+					{/* Edit Collection */}
+					<Button onClick={() => setEditModalCollection(collection)}>
+						Edit
+					</Button>
 					{/* Remove Collection */}
 					<Button onClick={() => setModalRemove(collection)}>
 						Remove
@@ -94,9 +101,16 @@ export default function CollectionList() {
 			</Modal>
 			<ModalRemoveCollection
 				collection={modalRemove}
-				setCollection={setCollections}
+				setCollections={setCollections}
 				handleClose={() => setModalRemove(null)}
 			/>
+			{editModalCollection && (
+				<ModalEditCollection
+					collection={editModalCollection}
+					setCollections={setCollections}
+					handleClose={() => setEditModalCollection(null)}
+				/>
+			)}
 		</ClientOnly>
 	)
 }

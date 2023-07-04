@@ -7,13 +7,13 @@ import { toast } from 'react-hot-toast'
 
 interface Props {
 	collection: AnimeCollection | null
-	setCollection: (collections: AnimeCollection[]) => void
+	setCollections: (collections: AnimeCollection[]) => void
 	handleClose: () => void
 }
 
 export default function ModalRemoveCollection({
 	collection,
-	setCollection,
+	setCollections,
 	handleClose,
 }: Props) {
 	if (!collection) {
@@ -22,9 +22,9 @@ export default function ModalRemoveCollection({
 
 	const handleRemove = () => {
 		const currentCollection = removeCollection(collection.id)
-		toast.remove(`Success remove collection: ${collection.name}`)
+		toast.success(`Success remove collection: ${collection.name}`)
 
-		setCollection([...currentCollection])
+		setCollections(currentCollection)
 		handleClose()
 	}
 
