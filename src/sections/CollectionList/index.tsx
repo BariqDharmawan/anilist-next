@@ -63,7 +63,7 @@ export default function CollectionList() {
 				Create New Collection
 			</Button>
 			{collectionList.map(collection => (
-				<div>
+				<div key={collection.id}>
 					<Link
 						href={`/collection/${collection.id}`}
 						key={collection.id}>
