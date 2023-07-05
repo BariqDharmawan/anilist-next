@@ -76,7 +76,7 @@ export default function AnimeDetail({ id }: Props) {
 			<Modal isShow={showModal} handleClose={handleClose}>
 				<CollectionForm
 					initTab='add'
-					animeId={id}
+					listAnime={[id]}
 					afterCreate={collectionName => {
 						createNewAnimeCollection(collectionName, [id]);
 						handleClose();

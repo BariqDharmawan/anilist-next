@@ -1,20 +1,5 @@
 import { light } from '@/src/theme';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-interface CardBaseProp {
-	theme: {
-		boxShadow: {
-			card: string;
-		};
-		borderRadius: {
-			m: string;
-		};
-		space: {
-			xl: string;
-		};
-	};
-}
 
 const CardBase = styled.div`
 	box-shadow: ${props => props.theme.boxShadow.card};

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ComponentProps, PropsWithChildren, ReactNode } from 'react';
 import { ContainerBase } from './Container.styled';
 
 const Container = ({
@@ -6,11 +6,13 @@ const Container = ({
 	className = '',
 	children,
 	...props
-}: {
-	id?: string;
-	className?: string;
-	children: ReactNode;
-}) => {
+}: PropsWithChildren<
+	ComponentProps<'div'> & {
+		id?: string;
+		className?: string;
+		children: ReactNode;
+	}
+>) => {
 	return (
 		<ContainerBase id={id} className={className} {...props}>
 			{children}

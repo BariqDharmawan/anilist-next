@@ -16,15 +16,36 @@ import PaginationWrapper from '@/src/components/Pagination/PaginationWrapper';
 import Card from '@/src/components/Card';
 import useMatchMedia from '@/src/hooks/useMatchMedia';
 import { ParamPage } from '@/src/lib/allInterface';
-import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
+import { BiBookmark, BiChevronDown, BiSolidBookmark } from 'react-icons/bi';
 import { useEffect, useState } from 'react';
 import StickyBoxAction from '@/src/components/StickyBoxAction/Index';
 import { createPortal } from 'react-dom';
+import { light } from '@/src/theme';
+import ListVertical from '@/src/components/ListVertical';
+import {
+	CollapseDetail,
+	CollapseStyle,
+} from '@/src/components/Collapsible/Collapsible.styled';
+import Button from '@/src/components/Button';
+import Modal from '@/src/components/Modal/Index';
+import useHandleModal from '@/src/hooks/useHandleModal';
+import CollectionForm from '@/src/components/Collections/CollectionForm';
+import { createNewAnimeCollection } from '@/src/lib/utils';
+import { AnimeCollection } from '@/src/types';
+import getCollection from '@/src/lib/getCollection';
 
 export default function HomePage() {
 	const router = useRouter();
 	const params = router.query as ParamPage;
 	const page = params.page !== undefined ? parseInt(params.page) : 1;
+
+	const { showModal, handleClose, setShowModal } = useHandleModal();
+
+	const [collections, setCollections] = useState<AnimeCollection[]>([]);
+
+	const [heightStickyBox, setHeightStickyBox] = useState<string | undefined>(
+		'1rem'
+	);
 
 	const { data, loading, error } = useQueryMediaPageQuery({
 		variables: {
@@ -36,12 +57,6 @@ export default function HomePage() {
 	const [localAnime, setLocalAnime] = useState<
 		QueryMediaPageQuery | undefined
 	>();
-
-	useEffect(() => {
-		setLocalAnime(data);
-	}, [data]);
-
-	console.log('data', localAnime);
 
 	let pageStart =
 		(data?.Page?.pageInfo?.currentPage ?? 1) <
@@ -66,8 +81,6 @@ export default function HomePage() {
 			(data?.Page?.pageInfo?.perPage ?? 1);
 	}
 
-	console.log(`pageStart: ${pageStart}, pageEnd: ${pageEnd}`);
-
 	const pagePaginationShowed = Array.from(
 		{ length: pageEnd - pageStart + 1 },
 		(_, i) => pageStart + i
@@ -75,16 +88,28 @@ export default function HomePage() {
 
 	const { isMoreThanPhone } = useMatchMedia();
 
-	const [selectedAnime, setSelectedAnime] = useState<number[]>([]);
-	const handleAddToCollection = (animeId: number) => {
-		setSelectedAnime(prevSelectedAnime => {
-			return prevSelectedAnime.includes(animeId)
-				? prevSelectedAnime.filter(id => id !== animeId)
-				: [...prevSelectedAnime, animeId];
+	const [listSelectedAnime, setlistSelectedAnime] = useState<any[]>([]);
+	const handleAddToCollection = (animeSelected: any) => {
+		setlistSelectedAnime(prevlistSelectedAnime => {
+			return prevlistSelectedAnime.includes(animeSelected)
+				? prevlistSelectedAnime.filter(anime => anime !== animeSelected)
+				: [...prevlistSelectedAnime, animeSelected];
 		});
 	};
 
-	console.log('selectedAnime', selectedAnime);
+	const getStickyBoxHeight = () => {
+		const stickyBoxEl = document.querySelector('#sticky-selected-anime');
+		stickyBoxEl && setHeightStickyBox(`${stickyBoxEl.clientHeight}px`);
+	};
+
+	useEffect(() => {
+		setLocalAnime(data);
+		setCollections(getCollection());
+
+		listSelectedAnime.length > 0 && getStickyBoxHeight();
+	}, [data, showModal, listSelectedAnime, heightStickyBox]);
+
+	console.log('heightStickyBox', heightStickyBox);
 
 	return loading || error || !data ? (
 		<WaitingData
@@ -93,77 +118,112 @@ export default function HomePage() {
 			dataNotExist={!data}
 		/>
 	) : (
-		<AnimeListContainer>
-			<PaginationWrapper
-				page={page}
-				availablePages={pagePaginationShowed}
-			/>
+		<>
+			<AnimeListContainer style={{ paddingBottom: heightStickyBox }}>
+				<PaginationWrapper
+					page={page}
+					availablePages={pagePaginationShowed}
+				/>
 
-			<AnimeListWrapper>
-				{data.Page?.media?.map(anime => {
-					const coverCol = isMoreThanPhone ? 'large' : 'medium';
-					const imgCover = anime?.coverImage?.[coverCol];
+				<AnimeListWrapper>
+					{data.Page?.media?.map(anime => {
+						const coverCol = isMoreThanPhone ? 'large' : 'medium';
+						const imgCover = anime?.coverImage?.[coverCol];
 
-					return (
-						<Card
-							padding='s'
-							key={anime?.id}
-							cover={
-								<CoverAnime>
-									<Link href={`/anime/${anime?.id}`}>
-										<ImageDefaultError
-											src={imgCover}
-											alt='cover anime'
-											fill
-										/>
-									</Link>
-								</CoverAnime>
-							}>
-							<div>
-								<label
-									htmlFor={`checkbox-anime-${anime?.id}`}
-									style={{
-										position: 'relative',
-										cursor: 'pointer',
-									}}>
-									<input
-										type='checkbox'
-										id={`checkbox-anime-${anime?.id}`}
-										value={anime?.id}
-										style={{
-											position: 'absolute',
-											left: '-999999999',
-											opacity: 0,
-											width: 0,
-											height: 0,
-										}}
+						return (
+							<Card
+								padding='s'
+								key={anime?.id}
+								cover={
+									<CoverAnime>
+										<Link href={`/anime/${anime?.id}`}>
+											<ImageDefaultError
+												src={imgCover}
+												alt='cover anime'
+												fill
+											/>
+										</Link>
+									</CoverAnime>
+								}>
+								<div>
+									<button
 										onClick={e =>
-											handleAddToCollection(
-												Number(
-													(
-														e.currentTarget as HTMLInputElement
-													).value
-												)
-											)
+											handleAddToCollection(anime)
 										}
-									/>
+										style={{
+											position: 'relative',
+											cursor: 'pointer',
+											backgroundColor: 'transparent',
+											borderStyle: 'none',
+											padding: '0',
+										}}>
+										{listSelectedAnime &&
+										listSelectedAnime.includes(anime) ? (
+											<BiSolidBookmark
+												color={light.color.gGoto}
+											/>
+										) : (
+											<BiBookmark />
+										)}
+									</button>
+								</div>
 
-									{selectedAnime.includes(anime!.id) ? (
-										<BiSolidBookmark />
-									) : (
-										<BiBookmark />
-									)}
-								</label>
-							</div>
+								<AnimeTitle>{anime?.title?.romaji}</AnimeTitle>
+							</Card>
+						);
+					})}
+				</AnimeListWrapper>
 
-							<AnimeTitle>{anime?.title?.romaji}</AnimeTitle>
-						</Card>
-					);
-				})}
-			</AnimeListWrapper>
+				{listSelectedAnime.length
+					? createPortal(
+							<StickyBoxAction id='sticky-selected-anime'>
+								<CollapseStyle>
+									<summary
+										onClick={() => getStickyBoxHeight()}>
+										<span style={{ fontWeight: 'bold' }}>
+											{listSelectedAnime.length} item
+											selected
+										</span>
+										<BiChevronDown size='1.5rem' />
+									</summary>
 
-			{selectedAnime.length &&
-				createPortal(<StickyBoxAction />, document.body)}
-		</AnimeListContainer>
+									<CollapseDetail
+										style={{
+											marginTop: '1rem',
+										}}>
+										<ListVertical
+											itemList={listSelectedAnime.map(
+												eachAnime =>
+													eachAnime.title.romaji
+											)}></ListVertical>
+									</CollapseDetail>
+								</CollapseStyle>
+
+								<Button
+									style={{ marginTop: '1rem', width: '100%' }}
+									onClick={() => setShowModal(true)}>
+									Add to collection
+								</Button>
+							</StickyBoxAction>,
+							document.body
+					  )
+					: ''}
+			</AnimeListContainer>
+
+			<Modal isShow={showModal} handleClose={handleClose}>
+				<CollectionForm
+					initTab='add'
+					listAnime={listSelectedAnime}
+					afterCreate={collectionName => {
+						createNewAnimeCollection(
+							collectionName,
+							listSelectedAnime
+						);
+						handleClose();
+					}}
+					{...{ handleClose, collections }}
+				/>
+			</Modal>
+		</>
 	);
 }

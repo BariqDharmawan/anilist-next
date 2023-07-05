@@ -5,22 +5,25 @@ import { AnimeCollection } from '@/src/types';
 interface AddToCollectionProps {
 	collections: AnimeCollection[];
 	afterSubmit?: () => void;
-	animeId: string;
+	listAnime: string[];
 }
 
 export default function AddToCollection({
 	collections,
 	afterSubmit,
-	animeId,
+	listAnime,
 }: AddToCollectionProps) {
-	const handleAddCollection = (collectionName: string, data: string) => {
+	const handleAddCollection = (collectionName: string, data: string[]) => {
 		const copyCollections = deepCopyObject(collections);
 
 		const indexSelectCollection = copyCollections.findIndex(collection => {
 			return collection.name === collectionName;
 		});
 
-		copyCollections[indexSelectCollection].list.push(data);
+		data.forEach(eachData =>
+			copyCollections[indexSelectCollection].list.push(eachData)
+		);
+
 		setCollectionLocalStorage(copyCollections);
 		toast.success('Success Add Anime to Collection');
 		afterSubmit && afterSubmit();
@@ -34,7 +37,7 @@ export default function AddToCollection({
 				<div
 					key={collection.name}
 					onClick={() =>
-						handleAddCollection(collection.name, animeId)
+						handleAddCollection(collection.name, listAnime)
 					}>
 					{collection.name}
 				</div>

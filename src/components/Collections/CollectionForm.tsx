@@ -13,7 +13,7 @@ type ActionCollectionTab = 'add' | 'create';
 interface Props {
 	collections: AnimeCollection[] | null;
 	handleClose: () => void;
-	animeId?: string;
+	listAnime?: string[];
 	afterCreate?: (collectionName: string) => void;
 	tabs?: true;
 	initTab?: ActionCollectionTab;
@@ -23,7 +23,7 @@ export default function CollectionForm({
 	collections,
 	handleClose,
 	afterCreate,
-	animeId = '',
+	listAnime = [],
 	tabs,
 	initTab,
 }: Props) {
@@ -46,7 +46,7 @@ export default function CollectionForm({
 			)}
 			{collections && collections.length !== 0 && activeTab === 'add' ? (
 				<AddToCollection
-					{...{ collections, animeId, afterSubmit: handleClose }}
+					{...{ collections, listAnime, afterSubmit: handleClose }}
 				/>
 			) : (
 				<CreateCollection afterSubmit={afterCreate} />

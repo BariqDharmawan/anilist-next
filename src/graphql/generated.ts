@@ -4693,7 +4693,7 @@ export type QueryAnimeDetailQueryVariables = Exact<{
 }>;
 
 
-export type QueryAnimeDetailQuery = { __typename?: 'Query', Media?: { __typename?: 'Media', genres?: Array<string | null> | null, favourites?: number | null, description?: string | null, title?: { __typename?: 'MediaTitle', romaji?: string | null } | null, rankings?: Array<{ __typename?: 'MediaRank', id: number, year?: number | null, rank: number } | null> | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null } | null } | null };
+export type QueryAnimeDetailQuery = { __typename?: 'Query', Media?: { __typename?: 'Media', id: number, genres?: Array<string | null> | null, favourites?: number | null, description?: string | null, title?: { __typename?: 'MediaTitle', romaji?: string | null } | null, rankings?: Array<{ __typename?: 'MediaRank', id: number, year?: number | null, rank: number } | null> | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null } | null } | null };
 
 
 export const QueryMediaPageDocument = gql`
@@ -4797,6 +4797,7 @@ export type QueryMediaCollectionQueryResult = Apollo.QueryResult<QueryMediaColle
 export const QueryAnimeDetailDocument = gql`
     query QueryAnimeDetail($id: Int, $asHtml: Boolean) {
   Media(id: $id) {
+    id
     title {
       romaji
     }

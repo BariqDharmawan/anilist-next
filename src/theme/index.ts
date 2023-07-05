@@ -13,6 +13,7 @@ const grays = {
 	gray100: '#f7f7f7',
 	gray200: '#f0f0f0',
 	gray300: '#ededed',
+	gray800: '#4f4f4f',
 };
 
 const blues = {

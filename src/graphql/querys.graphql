@@ -7,7 +7,7 @@ query QueryMediaPage($page: Int, $perPage: Int, $where_media_id: [Int]) {
 			hasNextPage
 			perPage
 		}
-		media(id_in:$where_media_id, type: ANIME) {
+		media(id_in: $where_media_id, type: ANIME) {
 			id
 			title {
 				romaji
@@ -36,6 +36,7 @@ query QueryMediaCollection($page: Int, $perPage: Int, $where_media_id: [Int]) {
 
 query QueryAnimeDetail($id: Int, $asHtml: Boolean) {
 	Media(id: $id) {
+		id
 		title {
 			romaji
 		}

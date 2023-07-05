@@ -22,6 +22,7 @@ export const AnimeListWrapper = styled.div`
 
 export const CoverAnime = styled.div`
 	height: 150px;
+	position: relative;
 
 	@media screen and (min-width: ${laptop}) {
 		height: 248px;
@@ -34,11 +35,4 @@ export const AnimeTitle = styled.h2`
 	text-transform: capitalize;
 `;
 
-export const AnimateDesc = styled.div`
-	p {
-		color: red;
-	}
-
-	br {
-	}
-`;
+export const AnimateDesc = styled.div``;
