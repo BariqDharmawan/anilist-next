@@ -126,6 +126,19 @@ export default function Detail() {
 
 					<div
 						style={{
+							marginBottom: '1rem',
+						}}>
+						<h4>Ratings</h4>
+						{data?.Review?.score} / 100
+					</div>
+
+					<div style={{ marginBottom: '1.5rem' }}>
+						<h4 style={{ margin: 0 }}>Number of episodes</h4>
+						<p>{data?.Media?.episodes} episodes</p>
+					</div>
+
+					<div
+						style={{
 							marginBottom: '10px',
 						}}>
 						<h4 style={{ marginBottom: '12px' }}>Rankings</h4>

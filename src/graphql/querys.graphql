@@ -51,5 +51,10 @@ query QueryAnimeDetail($id: Int, $asHtml: Boolean) {
 			large
 		}
 		description(asHtml: $asHtml)
+		episodes
+	}
+	Review(mediaId: $id) {
+		id
+		score
 	}
 }

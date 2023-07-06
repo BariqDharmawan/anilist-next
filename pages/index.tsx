@@ -88,11 +88,20 @@ export default function HomePage() {
 
 	const { isMoreThanPhone } = useMatchMedia();
 
-	const [listSelectedAnime, setlistSelectedAnime] = useState<any[]>([]);
-	const handleAddToCollection = (animeSelected: any) => {
+	const removeAnimeFromSelected = (
+		listAnimeSelected: string[],
+		animeToRemove: string
+	) => {
+		return listAnimeSelected.filter(
+			eachAnime => animeToRemove !== eachAnime
+		);
+	};
+
+	const [listSelectedAnime, setlistSelectedAnime] = useState<string[]>([]);
+	const handleAddToCollection = (animeSelected: string) => {
 		setlistSelectedAnime(prevlistSelectedAnime => {
 			return prevlistSelectedAnime.includes(animeSelected)
-				? prevlistSelectedAnime.filter(anime => anime !== animeSelected)
+				? removeAnimeFromSelected(prevlistSelectedAnime, animeSelected)
 				: [...prevlistSelectedAnime, animeSelected];
 		});
 	};
@@ -130,51 +139,59 @@ export default function HomePage() {
 						const coverCol = isMoreThanPhone ? 'large' : 'medium';
 						const imgCover = anime?.coverImage?.[coverCol];
 
-						return (
-							<Card
-								padding='s'
-								key={anime?.id}
-								cover={
-									<CoverAnime>
-										<Link href={`/anime/${anime?.id}`}>
-											<ImageDefaultError
-												src={imgCover}
-												alt='cover anime'
-												fill
-											/>
-										</Link>
-									</CoverAnime>
-								}>
-								<div>
-									<button
-										onClick={e =>
-											handleAddToCollection(anime)
-										}
-										style={{
-											position: 'relative',
-											cursor: 'pointer',
-											backgroundColor: 'transparent',
-											borderStyle: 'none',
-											padding: '0',
-										}}>
-										{listSelectedAnime &&
-										listSelectedAnime.includes(anime) ? (
-											<BiSolidBookmark
-												color={light.color.gGoto}
-											/>
-										) : (
-											<BiBookmark />
-										)}
-									</button>
-								</div>
+						if (anime) {
+							return (
+								<Card
+									padding='s'
+									key={anime.id}
+									cover={
+										<CoverAnime>
+											<Link href={`/anime/${anime.id}`}>
+												<ImageDefaultError
+													src={imgCover}
+													alt='cover anime'
+													fill
+												/>
+											</Link>
+										</CoverAnime>
+									}>
+									<div>
+										<button
+											onClick={e =>
+												handleAddToCollection(
+													anime.id.toString()
+												)
+											}
+											style={{
+												position: 'relative',
+												cursor: 'pointer',
+												backgroundColor: 'transparent',
+												borderStyle: 'none',
+												padding: '0',
+											}}>
+											{listSelectedAnime &&
+											listSelectedAnime.includes(
+												anime.id.toString()
+											) ? (
+												<BiSolidBookmark
+													color={light.color.gGoto}
+												/>
+											) : (
+												<BiBookmark />
+											)}
+										</button>
+									</div>
 
-								<AnimeTitle>{anime?.title?.romaji}</AnimeTitle>
-							</Card>
-						);
+									<AnimeTitle>
+										{anime.title?.romaji}
+									</AnimeTitle>
+								</Card>
+							);
+						}
 					})}
 				</AnimeListWrapper>
 
-				{listSelectedAnime.length
+				{listSelectedAnime.length > 0
 					? createPortal(
 							<StickyBoxAction id='sticky-selected-anime'>
 								<CollapseStyle>
@@ -192,14 +209,22 @@ export default function HomePage() {
 											marginTop: '1rem',
 										}}>
 										<ListVertical
-											itemList={listSelectedAnime.map(
-												eachAnime =>
-													eachAnime.title.romaji
-											)}></ListVertical>
+											itemList={(() => {
+												return listSelectedAnime.map(
+													eachSelected => {
+														return data.Page?.media?.filter(
+															eachData =>
+																eachData?.id.toString() ===
+																eachSelected
+														)[0]?.title?.romaji!;
+													}
+												);
+											})()}></ListVertical>
 									</CollapseDetail>
 								</CollapseStyle>
 
 								<Button
+									variant='primary'
 									style={{ marginTop: '1rem', width: '100%' }}
 									onClick={() => setShowModal(true)}>
 									Add to collection
@@ -212,6 +237,7 @@ export default function HomePage() {
 
 			<Modal isShow={showModal} handleClose={handleClose}>
 				<CollectionForm
+					tabs
 					initTab='add'
 					listAnime={listSelectedAnime}
 					afterCreate={collectionName => {

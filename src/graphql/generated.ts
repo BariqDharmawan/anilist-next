@@ -4693,7 +4693,7 @@ export type QueryAnimeDetailQueryVariables = Exact<{
 }>;
 
 
-export type QueryAnimeDetailQuery = { __typename?: 'Query', Media?: { __typename?: 'Media', id: number, genres?: Array<string | null> | null, favourites?: number | null, description?: string | null, title?: { __typename?: 'MediaTitle', romaji?: string | null } | null, rankings?: Array<{ __typename?: 'MediaRank', id: number, year?: number | null, rank: number } | null> | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null } | null } | null };
+export type QueryAnimeDetailQuery = { __typename?: 'Query', Media?: { __typename?: 'Media', id: number, genres?: Array<string | null> | null, favourites?: number | null, description?: string | null, episodes?: number | null, title?: { __typename?: 'MediaTitle', romaji?: string | null } | null, rankings?: Array<{ __typename?: 'MediaRank', id: number, year?: number | null, rank: number } | null> | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null } | null } | null, Review?: { __typename?: 'Review', id: number, score?: number | null } | null };
 
 
 export const QueryMediaPageDocument = gql`
@@ -4812,6 +4812,11 @@ export const QueryAnimeDetailDocument = gql`
       large
     }
     description(asHtml: $asHtml)
+    episodes
+  }
+  Review(mediaId: $id) {
+    id
+    score
   }
 }
     `;
