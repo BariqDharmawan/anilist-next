@@ -20,6 +20,9 @@ import client from '../lib/apollo-client';
 import Button from '../components/Button';
 import ModalEditCollection from '../components/Collections/ModalEditCollection';
 import { setCollectionLocalStorage } from '../lib/utils';
+import ModalRemoveAnimeCollection, {
+	SelectedAnimeRemove,
+} from '../components/Collections/ModalRemoveAnimeCollection';
 
 interface Props {
 	slug: string;
@@ -33,23 +36,25 @@ export default function CollectionDetail({ slug }: Props) {
 	const [collection, setCollection] = useState<AnimeCollection | null>(null);
 	const [editMode, setEditMode] = useState(false);
 	const [isMoreThanPhone, setIsMoreThanPhone] = useState(false);
+	const [selectedRemoveAnime, setSelectedRemoveAnime] =
+		useState<SelectedAnimeRemove | null>(null);
 
-	const handleRemoveAnime = async (id: string) => {
-		const collections = getCollection();
+	// const handleRemoveAnime = async (id: string) => {
+	// 	const collections = getCollection();
 
-		const editedIdx = collections.findIndex(c => c.id === slug);
+	// 	const editedIdx = collections.findIndex(c => c.id === slug);
 
-		const copyCollection = { ...collection! };
+	// 	const copyCollection = { ...collection! };
 
-		copyCollection.list = copyCollection.list.filter(l => l !== id);
+	// 	copyCollection.list = copyCollection.list.filter(l => l !== id);
 
-		collections[editedIdx] = copyCollection;
+	// 	collections[editedIdx] = copyCollection;
 
-		setCollectionLocalStorage(collections);
-		setCollection(copyCollection);
+	// 	setCollectionLocalStorage(collections);
+	// 	setCollection(copyCollection);
 
-		fetchData(copyCollection);
-	};
+	// 	fetchData(copyCollection);
+	// };
 
 	const fetchData = async (_collection: AnimeCollection) => {
 		try {
@@ -123,7 +128,10 @@ export default function CollectionDetail({ slug }: Props) {
 							</Link>
 							<Button
 								onClick={() =>
-									handleRemoveAnime(anime.id.toString())
+									setSelectedRemoveAnime({
+										id: anime.id.toString(),
+										name: anime.title?.romaji!,
+									})
 								}>
 								Remove
 							</Button>
@@ -142,6 +150,17 @@ export default function CollectionDetail({ slug }: Props) {
 						setCollection(_collection[0]);
 					}}
 					handleClose={() => setEditMode(false)}
+				/>
+			)}
+			{selectedRemoveAnime && (
+				<ModalRemoveAnimeCollection
+					collectionId={slug}
+					handleClose={() => setSelectedRemoveAnime(null)}
+					setCollection={setCollection}
+					selectedAnimeRemove={selectedRemoveAnime}
+					// afterRemove={() => {
+					// 	fetchData(collection);
+					// }}
 				/>
 			)}
 		</div>

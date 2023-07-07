@@ -68,8 +68,8 @@ export function editCollection(
 		return collections.id === id;
 	});
 
-	collections[editedIdx].name = newName
-	setCollectionLocalStorage(collections)
+	collections[editedIdx].name = newName;
+	setCollectionLocalStorage(collections);
 
 	return {
 		data: collections,
@@ -86,6 +86,26 @@ export function removeCollection(id: string): AnimeCollection[] {
 
 	setCollectionLocalStorage(newCollection);
 	return newCollection;
+}
+
+export function removeAnimeFromCollection(
+	idCollection: string,
+	animeId: string
+): AnimeCollection {
+	const collections = getAnimeCollection();
+
+	const selectedCollectionIdx = collections.findIndex(collection => {
+		return collection.id === idCollection;
+	});
+
+	collections[selectedCollectionIdx].list = collections[
+		selectedCollectionIdx
+	].list.filter(id => {
+		return id !== animeId;
+	});
+
+	setCollectionLocalStorage(collections);
+	return collections[selectedCollectionIdx];
 }
 
 export function createNewAnimeCollection(
