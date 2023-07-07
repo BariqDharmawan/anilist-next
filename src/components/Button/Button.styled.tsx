@@ -9,6 +9,7 @@ const ButtonBase = css`
 	text-transform: capitalize;
 	border-radius: 8px;
 	padding: 0;
+	padding-inline: 1rem;
 
 	&:disabled {
 		opacity: 0.5;

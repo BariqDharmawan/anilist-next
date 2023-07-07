@@ -1,6 +1,10 @@
 import toast from 'react-hot-toast';
 import { deepCopyObject, setCollectionLocalStorage } from '@/src/lib/utils';
 import { AnimeCollection } from '@/src/types';
+import {
+	CollectionSelectedList,
+	CollectionSelectedName,
+} from './Collection.styled';
 
 interface AddToCollectionProps {
 	collections: AnimeCollection[];
@@ -33,15 +37,17 @@ export default function AddToCollection({
 		<div>
 			<div>Add to collection</div>
 			<br />
-			{collections.map(collection => (
-				<div
-					key={collection.name}
-					onClick={() =>
-						handleAddCollection(collection.name, listAnime)
-					}>
-					{collection.name}
-				</div>
-			))}
+			<CollectionSelectedList>
+				{collections.map(collection => (
+					<CollectionSelectedName
+						key={collection.name}
+						onClick={() =>
+							handleAddCollection(collection.name, listAnime)
+						}>
+						{collection.name}
+					</CollectionSelectedName>
+				))}
+			</CollectionSelectedList>
 		</div>
 	);
 }

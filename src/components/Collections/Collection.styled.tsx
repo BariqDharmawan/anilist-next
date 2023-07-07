@@ -26,6 +26,19 @@ export const ModalOverlay = styled.div`
 	animation: ${blurEffect} 300ms ease-in forwards;
 `;
 
+export const CollectionTitle = styled.p`
+	font-weight: 500;
+	font-size: 1.2rem;
+	line-height: 8px;
+	text-transform: capitalize;
+`;
+
+export const ButtonActionWrapper = styled.div`
+	display: flex;
+	gap: 0.5rem;
+	margin-block: 12px;
+`;
+
 export const CollectionCard = styled.div`
 	position: relative;
 	background-color: white;
@@ -49,11 +62,18 @@ export const IconCloseWrapper = styled.div`
 	transition: background-color 150ms ease-in-out;
 	padding: 8px;
 	&:hover {
-		background-color: rgba(
-			170,
-			161,
-			161,
-			0.2
-		); /* Warna latar belakang overlay */
+		background-color: rgba(170, 161, 161, 0.2);
 	}
+`;
+
+export const CollectionSelectedList = styled.div`
+	display: flex;
+	gap: 8px;
+	flex-direction: column;
+`;
+
+export const CollectionSelectedName = styled.span`
+	font-weight: 500;
+	font-size: 1rem;
+	cursor: pointer;
 `;

@@ -1,13 +1,14 @@
 import ClientOnly from '@/src/components/ClientOnly';
+import Container from '@/src/components/Container/Index';
 import CollectionList from '@/src/sections/CollectionList';
 
 export default function Collection() {
 	return (
-		<div>
+		<Container className='container'>
 			<h1>Collection List</h1>
 			<ClientOnly>
 				<CollectionList />
 			</ClientOnly>
-		</div>
+		</Container>
 	);
 }

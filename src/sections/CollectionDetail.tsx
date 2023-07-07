@@ -39,23 +39,6 @@ export default function CollectionDetail({ slug }: Props) {
 	const [selectedRemoveAnime, setSelectedRemoveAnime] =
 		useState<SelectedAnimeRemove | null>(null);
 
-	// const handleRemoveAnime = async (id: string) => {
-	// 	const collections = getCollection();
-
-	// 	const editedIdx = collections.findIndex(c => c.id === slug);
-
-	// 	const copyCollection = { ...collection! };
-
-	// 	copyCollection.list = copyCollection.list.filter(l => l !== id);
-
-	// 	collections[editedIdx] = copyCollection;
-
-	// 	setCollectionLocalStorage(collections);
-	// 	setCollection(copyCollection);
-
-	// 	fetchData(copyCollection);
-	// };
-
 	const fetchData = async (_collection: AnimeCollection) => {
 		try {
 			if (_collection.list.length === 0) {

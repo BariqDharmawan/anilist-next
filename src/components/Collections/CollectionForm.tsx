@@ -1,6 +1,10 @@
 import { GrClose } from 'react-icons/gr';
 import { AnimeCollection } from '@/src/types';
-import { CollectionCard, IconCloseWrapper } from './Collection.styled';
+import {
+	ButtonActionWrapper,
+	CollectionCard,
+	IconCloseWrapper,
+} from './Collection.styled';
 import CreateCollection from './CreateCollection';
 
 import AddToCollection from './AddToCollection';
@@ -37,12 +41,18 @@ export default function CollectionForm({
 				<GrClose />
 			</IconCloseWrapper>
 			{tabs && (
-				<>
-					<Button onClick={() => setActiveTab('add')}>Add</Button>
-					<Button onClick={() => setActiveTab('create')}>
+				<ButtonActionWrapper>
+					<Button
+						variant='primary'
+						onClick={() => setActiveTab('add')}>
+						Add
+					</Button>
+					<Button
+						variant='primary'
+						onClick={() => setActiveTab('create')}>
 						Create
 					</Button>
-				</>
+				</ButtonActionWrapper>
 			)}
 			{collections && collections.length !== 0 && activeTab === 'add' ? (
 				<AddToCollection
