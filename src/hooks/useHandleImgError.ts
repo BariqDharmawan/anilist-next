@@ -1,20 +1,20 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 const useHandleImgError = (imgOnError = '/images/default.jpg') => {
-	const [imgError, setImgError] = useState(false)
+	const [imgError, setImgError] = useState(false);
 
 	const handleImgError = () => {
-		setImgError(true)
-	}
+		setImgError(true);
+	};
 
 	const pathImg = (imgOnSuccess: string | undefined) =>
 		imgError
 			? imgOnError
 			: imgOnSuccess === undefined
 			? '/images/no-img.jpg'
-			: imgOnSuccess
+			: imgOnSuccess;
 
-	return { imgError, handleImgError, pathImg }
-}
+	return { imgError, handleImgError, pathImg };
+};
 
-export default useHandleImgError
+export default useHandleImgError;

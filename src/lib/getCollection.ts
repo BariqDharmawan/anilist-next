@@ -1,18 +1,18 @@
-import { COLLECTION_KEY_STORAGE } from '../constants'
-import { AnimeCollection } from '../types'
+import { COLLECTION_KEY_STORAGE } from '../constants';
+import { AnimeCollection } from '../types';
 
 const getCollection = () => {
-	const currentCollectionStr = localStorage.getItem(COLLECTION_KEY_STORAGE)
+	const currentCollectionStr = localStorage.getItem(COLLECTION_KEY_STORAGE);
 	if (!currentCollectionStr) {
-		localStorage.setItem(COLLECTION_KEY_STORAGE, '[]')
-		return []
+		localStorage.setItem(COLLECTION_KEY_STORAGE, '[]');
+		return [];
 	}
 
 	const currentCollection = JSON.parse(
 		currentCollectionStr
-	) as AnimeCollection[]
+	) as AnimeCollection[];
 
-	return currentCollection
-}
+	return currentCollection;
+};
 
-export default getCollection
+export default getCollection;

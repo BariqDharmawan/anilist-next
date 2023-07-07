@@ -36,6 +36,7 @@ query QueryMediaCollection($page: Int, $perPage: Int, $where_media_id: [Int]) {
 
 query QueryAnimeDetail($id: Int, $asHtml: Boolean) {
 	Media(id: $id) {
+		id
 		title {
 			romaji
 		}
@@ -50,5 +51,10 @@ query QueryAnimeDetail($id: Int, $asHtml: Boolean) {
 			large
 		}
 		description(asHtml: $asHtml)
+		episodes
+	}
+	Review(mediaId: $id) {
+		id
+		score
 	}
 }

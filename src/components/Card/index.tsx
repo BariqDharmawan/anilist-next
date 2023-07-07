@@ -1,19 +1,30 @@
-import { CardSM, CardXL } from './CardStyled'
-import { ReactNode } from 'react'
+import { CardBase, CardBodySM, CardBodyXL, CardCover } from './CardStyled';
+import { ReactNode } from 'react';
 
-type CardPadding = 's' | 'xl'
+type CardPadding = 's' | 'xl';
 
 export default function Card({
 	padding = 'xl',
 	children,
+	cover,
 }: {
-	padding: CardPadding
-	children: ReactNode
+	padding: CardPadding;
+	children: ReactNode;
+	cover?: ReactNode;
 }) {
+	let cardBody: ReactNode;
+
 	if (padding === 'xl') {
-		return <CardXL>{children}</CardXL>
+		cardBody = <CardBodyXL>{children}</CardBodyXL>;
 	}
 	if (padding === 's') {
-		return <CardSM>{children}</CardSM>
+		cardBody = <CardBodySM>{children}</CardBodySM>;
 	}
+
+	return (
+		<CardBase>
+			{cover && <CardCover>{cover}</CardCover>}
+			{cardBody}
+		</CardBase>
+	);
 }

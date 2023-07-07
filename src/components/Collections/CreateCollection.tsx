@@ -1,31 +1,31 @@
-import { FormEvent, useState } from 'react'
-import toast from 'react-hot-toast'
-import { createNewAnimeCollection } from '@/src/lib/utils'
-import Button from '../Button'
+import { FormEvent, useState } from 'react';
+import toast from 'react-hot-toast';
+import { createNewAnimeCollection } from '@/src/lib/utils';
+import Button from '../Button';
 
 interface CreateCollectionProps {
-	afterSubmit?: (collectionName: string) => void
+	afterSubmit?: (collectionName: string) => void;
 }
 
 export default function CreateCollection({
 	afterSubmit,
 }: CreateCollectionProps) {
-	const [collectionName, setCollectionName] = useState('')
+	const [collectionName, setCollectionName] = useState('');
 
 	const handleCreate = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
+		e.preventDefault();
 
-		const errorMsg = createNewAnimeCollection(collectionName!)
+		const errorMsg = createNewAnimeCollection(collectionName!);
 		if (errorMsg) {
-			toast.error(errorMsg)
-			return
+			toast.error(errorMsg);
+			return;
 		}
 
-		toast.success(`Success Create New Collection`)
+		toast.success(`Success Create New Collection`);
 		if (afterSubmit) {
-			afterSubmit(collectionName!)!
+			afterSubmit(collectionName!)!;
 		}
-	}
+	};
 
 	return (
 		<div>
@@ -42,5 +42,5 @@ export default function CreateCollection({
 				<Button>Create</Button>
 			</form>
 		</div>
-	)
+	);
 }

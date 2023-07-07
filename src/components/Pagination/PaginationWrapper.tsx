@@ -1,50 +1,31 @@
-import { AnimeListContainer } from '../AnimeList/AnimeList.styled'
-import { PropsWithChildren } from 'react'
-import { PaginationPage, StyledPagination } from './Pagination.styled'
-import Button from '../Button'
-import { NextRouter } from 'next/router'
+import { StyledPagination } from './Pagination.styled';
+import PaginationLink from './PaginationLink';
+import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 
 interface Props {
-	isLoading?: boolean
-	page: number
-	availablePages: number[] | null
-	router: NextRouter
+	page: number;
+	availablePages: number[] | null;
 }
 
-const PaginationWrapper = ({
-	router,
-	availablePages = null,
-	page,
-	isLoading = false,
-	children,
-}: PropsWithChildren<Props>) => {
+const PaginationWrapper = ({ availablePages = null, page }: Props) => {
 	return (
-		<AnimeListContainer>
-			{children}
-			<StyledPagination>
-				<Button
-					disabled={isLoading || page <= 1}
-					onClick={() => router.push(`?page=${page - 1}`)}>
-					prev
-				</Button>
+		<StyledPagination>
+			{page > 1 && (
+				<PaginationLink pageTo={page - 1} icon={<BiLeftArrowAlt />} />
+			)}
 
-				{availablePages?.map(eachPage => (
-					<Button
-						key={`page-${eachPage}`}
-						disabled={eachPage === page}
-						onClick={() => router.push(`?page=${eachPage}`)}>
-						{eachPage}
-					</Button>
-				))}
+			{availablePages?.map(eachPage => (
+				<PaginationLink
+					key={`page-${eachPage}`}
+					pageTo={eachPage}
+					isActive={eachPage === page}
+					label={eachPage}
+				/>
+			))}
 
-				<Button
-					disabled={isLoading}
-					onClick={() => router.push(`?page=${page + 1}`)}>
-					next
-				</Button>
-			</StyledPagination>
-		</AnimeListContainer>
-	)
-}
+			<PaginationLink pageTo={page + 1} icon={<BiRightArrowAlt />} />
+		</StyledPagination>
+	);
+};
 
-export default PaginationWrapper
+export default PaginationWrapper;

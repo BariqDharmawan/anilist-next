@@ -1,14 +1,20 @@
-import { NAVBAR_LINKS } from '@/src/constants'
-import { NavbarLink } from './Navbar.styled'
+import { NAVBAR_LINKS } from '@/src/constants';
+import { NavPrimary, NavbarLink } from './Navbar.styled';
+import Container from '../Container/Index';
 
 export default function Navbar() {
 	return (
-		<div>
-			{NAVBAR_LINKS.map(item => (
-				<NavbarLink key={item.link} href={item.link}>
-					{item.title}
+		<NavPrimary>
+			<Container className='container'>
+				<NavbarLink className='is-logo' href='/'>
+					Logo
 				</NavbarLink>
-			))}
-		</div>
-	)
+				{NAVBAR_LINKS.map(item => (
+					<NavbarLink key={item.link} href={item.link}>
+						{item.title}
+					</NavbarLink>
+				))}
+			</Container>
+		</NavPrimary>
+	);
 }

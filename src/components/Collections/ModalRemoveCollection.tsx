@@ -1,14 +1,14 @@
-import { AnimeCollection } from '@/src/types'
-import Modal from '../Modal/Index'
-import { CollectionCard } from './Collection.styled'
-import Button from '../Button'
-import { removeCollection } from '@/src/lib/utils'
-import { toast } from 'react-hot-toast'
+import { AnimeCollection } from '@/src/types';
+import Modal from '../Modal/Index';
+import { CollectionCard } from './Collection.styled';
+import Button from '../Button';
+import { removeCollection } from '@/src/lib/utils';
+import { toast } from 'react-hot-toast';
 
 interface Props {
-	collection: AnimeCollection | null
-	setCollections: (collections: AnimeCollection[]) => void
-	handleClose: () => void
+	collection: AnimeCollection | null;
+	setCollections: (collections: AnimeCollection[]) => void;
+	handleClose: () => void;
 }
 
 export default function ModalRemoveCollection({
@@ -17,16 +17,16 @@ export default function ModalRemoveCollection({
 	handleClose,
 }: Props) {
 	if (!collection) {
-		return null
+		return null;
 	}
 
 	const handleRemove = () => {
-		const currentCollection = removeCollection(collection.id)
-		toast.success(`Success remove collection: ${collection.name}`)
+		const currentCollection = removeCollection(collection.id);
+		toast.success(`Success remove collection: ${collection.name}`);
 
-		setCollections(currentCollection)
-		handleClose()
-	}
+		setCollections(currentCollection);
+		handleClose();
+	};
 
 	return (
 		<Modal isShow handleClose={handleClose}>
@@ -37,5 +37,5 @@ export default function ModalRemoveCollection({
 				<Button onClick={handleClose}>No</Button>
 			</CollectionCard>
 		</Modal>
-	)
+	);
 }
