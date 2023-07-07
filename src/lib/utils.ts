@@ -69,6 +69,7 @@ export function editCollection(
 	})
 
 	collections[editedIdx].name = newName
+	setCollectionLocalStorage(collections)
 
 	return {
 		data: collections,
