@@ -15,7 +15,7 @@ interface Props {
 	setCollection: (collections: AnimeCollection) => void;
 	selectedAnimeRemove: SelectedAnimeRemove;
 	handleClose: () => void;
-	afterRemove?: () => void;
+	afterRemove?: (collection: AnimeCollection) => void;
 }
 
 export default function ModalRemoveAnimeCollection({
@@ -32,10 +32,7 @@ export default function ModalRemoveAnimeCollection({
 		);
 		toast.success(`Success remove collection: ${selectedAnimeRemove.name}`);
 
-		console.log(currentCollection);
-
-		setCollection(currentCollection);
-		afterRemove && afterRemove;
+		afterRemove && afterRemove(currentCollection);
 		handleClose();
 	};
 

@@ -88,14 +88,57 @@ export function removeCollection(id: string): AnimeCollection[] {
 	return newCollection;
 }
 
+type ReturnAddToCollection = {
+	error: ErrorMsg;
+	collection: AnimeCollection;
+};
+
+export function addToCollection(
+	collectionName: string,
+	data: string[]
+): ErrorMsg {
+	const collections = getAnimeCollection();
+
+	const indexSelectCollection = collections.findIndex(collection => {
+		return collection.name === collectionName;
+	});
+
+	for (let i = 0; i < data.length; i++) {
+		if (collections[indexSelectCollection].list.includes(data[i])) {
+			return `Anime with id ${data[i]} already collected in ${collectionName}`;
+		}
+	}
+
+	collections[indexSelectCollection].list = [
+		...collections[indexSelectCollection].list,
+		...data,
+	];
+
+	setCollectionLocalStorage(collections);
+	return null;
+}
+
+export function checkMediaIdHasContain(
+	collectionId: string,
+	animeId: string
+): boolean {
+	const collections = getAnimeCollection();
+
+	const selectedCollectionIdx = collections.findIndex(collection => {
+		return collection.id === collectionId;
+	});
+
+	return collections[selectedCollectionIdx].list.some(id => id === animeId);
+}
+
 export function removeAnimeFromCollection(
-	idCollection: string,
+	collectionId: string,
 	animeId: string
 ): AnimeCollection {
 	const collections = getAnimeCollection();
 
 	const selectedCollectionIdx = collections.findIndex(collection => {
-		return collection.id === idCollection;
+		return collection.id === collectionId;
 	});
 
 	collections[selectedCollectionIdx].list = collections[

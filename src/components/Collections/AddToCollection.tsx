@@ -1,5 +1,9 @@
 import toast from 'react-hot-toast';
-import { deepCopyObject, setCollectionLocalStorage } from '@/src/lib/utils';
+import {
+	addToCollection,
+	deepCopyObject,
+	setCollectionLocalStorage,
+} from '@/src/lib/utils';
 import { AnimeCollection } from '@/src/types';
 import {
 	CollectionSelectedList,
@@ -19,17 +23,13 @@ export default function AddToCollection({
 	listAnime,
 }: AddToCollectionProps) {
 	const handleAddCollection = (collectionName: string, data: string[]) => {
-		const copyCollections = deepCopyObject(collections);
+		const error = addToCollection(collectionName, data);
 
-		const indexSelectCollection = copyCollections.findIndex(collection => {
-			return collection.name === collectionName;
-		});
+		if (error) {
+			toast.error(error);
+			return;
+		}
 
-		data.forEach(eachData =>
-			copyCollections[indexSelectCollection].list.push(eachData)
-		);
-
-		setCollectionLocalStorage(copyCollections);
 		toast.success('Success Add Anime to Collection');
 		afterSubmit && afterSubmit();
 	};

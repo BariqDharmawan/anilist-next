@@ -30,7 +30,7 @@ import Button from '@/src/components/Button';
 import Modal from '@/src/components/Modal/Index';
 import useHandleModal from '@/src/hooks/useHandleModal';
 import CollectionForm from '@/src/components/Collections/CollectionForm';
-import { createNewAnimeCollection } from '@/src/lib/utils';
+import { addToCollection, createNewAnimeCollection } from '@/src/lib/utils';
 import { AnimeCollection } from '@/src/types';
 import getCollection from '@/src/lib/getCollection';
 
@@ -219,7 +219,8 @@ export default function HomePage() {
 														)[0]?.title?.romaji!;
 													}
 												);
-											})()}></ListVertical>
+											})()}
+										/>
 									</CollapseDetail>
 								</CollapseStyle>
 
@@ -241,10 +242,7 @@ export default function HomePage() {
 					initTab='add'
 					listAnime={listSelectedAnime}
 					afterCreate={collectionName => {
-						createNewAnimeCollection(
-							collectionName,
-							listSelectedAnime
-						);
+						addToCollection(collectionName, listSelectedAnime);
 						handleClose();
 					}}
 					{...{ handleClose, collections }}

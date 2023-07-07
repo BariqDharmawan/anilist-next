@@ -88,9 +88,14 @@ export default function CollectionDetail({ slug }: Props) {
 	}
 
 	return (
-		<div>
+		<>
 			<h3>Collection Name {collection.name}</h3>
-			<Button onClick={() => setEditMode(true)}>Edit</Button>
+			<Button
+				style={{ marginBlock: '1rem' }}
+				variant='primary'
+				onClick={() => setEditMode(true)}>
+				Edit Collection
+			</Button>
 			<AnimeListWrapper>
 				{animeList?.Page?.media?.map(anime => {
 					const coverCol = isMoreThanPhone ? 'large' : 'medium';
@@ -98,18 +103,24 @@ export default function CollectionDetail({ slug }: Props) {
 
 					if (!anime) return null;
 					return (
-						<Card padding='s' key={anime.id}>
-							<Link href={`/anime/${anime.id}`}>
+						<Card
+							padding='s'
+							key={anime.id}
+							cover={
 								<CoverAnime>
-									<ImageDefaultError
-										src={imgCover}
-										alt='cover anime'
-										fill
-									/>
+									<Link href={`/anime/${anime.id}`}>
+										<ImageDefaultError
+											src={imgCover}
+											alt='cover anime'
+											fill
+										/>
+									</Link>
 								</CoverAnime>
-								<AnimeTitle>{anime.title?.romaji}</AnimeTitle>
-							</Link>
+							}>
+							<AnimeTitle>{anime.title?.romaji}</AnimeTitle>
 							<Button
+								style={{ marginBlock: '1rem' }}
+								variant='primary'
 								onClick={() =>
 									setSelectedRemoveAnime({
 										id: anime.id.toString(),
@@ -141,11 +152,12 @@ export default function CollectionDetail({ slug }: Props) {
 					handleClose={() => setSelectedRemoveAnime(null)}
 					setCollection={setCollection}
 					selectedAnimeRemove={selectedRemoveAnime}
-					// afterRemove={() => {
-					// 	fetchData(collection);
-					// }}
+					afterRemove={collection => {
+						setCollection(collection);
+						fetchData(collection);
+					}}
 				/>
 			)}
-		</div>
+		</>
 	);
 }

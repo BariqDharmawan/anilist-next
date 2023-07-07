@@ -81,22 +81,30 @@ export default function CollectionList() {
 			</Button>
 			<AnimeListWrapper>
 				{collectionList.map(collection => (
-					<Card padding='s' key={collection.id}>
-						<Link
-							href={`/collection/${collection.id}`}
-							key={collection.id}>
+					<Card
+						padding='s'
+						key={collection.id}
+						cover={
 							<CoverAnime>
-								<ImageDefaultError
-									src={collection.imageSrc}
-									alt='cover-img'
-									fill
-								/>
+								<Link
+									href={`/collection/${collection.id}`}
+									key={collection.id}>
+									<ImageDefaultError
+										src={collection.imageSrc}
+										alt='cover-img'
+										fill
+									/>
+								</Link>
 							</CoverAnime>
-							<CollectionTitle>{collection.name}</CollectionTitle>
-							<AnimeTitle>
-								Contains {collection.list.length} anime
-							</AnimeTitle>
-						</Link>
+						}>
+						<CollectionTitle>
+							{collection.name.length > 16
+								? collection.name.slice(0, 14) + '...'
+								: collection.name}
+						</CollectionTitle>
+						<AnimeTitle>
+							Contains {collection.list.length} anime
+						</AnimeTitle>
 						<ButtonActionWrapper>
 							<Button
 								variant='primary'

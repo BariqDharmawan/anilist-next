@@ -16,7 +16,7 @@ export default function CreateCollection({
 	const handleCreate = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const errorMsg = createNewAnimeCollection(collectionName!);
+		const errorMsg = createNewAnimeCollection(collectionName);
 		if (errorMsg) {
 			toast.error(errorMsg);
 			return;
@@ -24,7 +24,7 @@ export default function CreateCollection({
 
 		toast.success(`Success Create New Collection`);
 		if (afterSubmit) {
-			afterSubmit(collectionName!)!;
+			afterSubmit(collectionName)!;
 		}
 	};
 

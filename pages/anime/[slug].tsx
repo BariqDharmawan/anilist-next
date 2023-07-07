@@ -1,12 +1,11 @@
 import useHandleModal from '@/src/hooks/useHandleModal';
 import { ParamSlug } from '@/src/lib/allInterface';
-import AnimeDetail from '@/src/sections/AnimeDetail';
 import { AnimeCollection } from '@/src/types';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import getCollection from '@/src/lib/getCollection';
 import { useQueryAnimeDetailQuery } from '@/src/graphql/generated';
-import { createNewAnimeCollection } from '@/src/lib/utils';
+import { addToCollection } from '@/src/lib/utils';
 import CollectionForm from '@/src/components/Collections/CollectionForm';
 import Modal from '@/src/components/Modal/Index';
 import { AnimateDesc } from '@/src/components/AnimeList/AnimeList.styled';
@@ -182,7 +181,7 @@ export default function Detail() {
 					initTab='add'
 					listAnime={[params.slug]}
 					afterCreate={collectionName => {
-						createNewAnimeCollection(collectionName, [params.slug]);
+						addToCollection(collectionName, [params.slug]);
 						handleClose();
 					}}
 					{...{ handleClose, collections }}
