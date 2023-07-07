@@ -1,14 +1,14 @@
+import { AnimeListContainer } from '@/src/components/AnimeList/AnimeList.styled';
 import ClientOnly from '@/src/components/ClientOnly';
-import Container from '@/src/components/Container/Index';
 import CollectionList from '@/src/sections/CollectionList';
 
 export default function Collection() {
 	return (
-		<Container className='container'>
+		<AnimeListContainer>
 			<h1>Collection List</h1>
 			<ClientOnly>
 				<CollectionList />
 			</ClientOnly>
-		</Container>
+		</AnimeListContainer>
 	);
 }

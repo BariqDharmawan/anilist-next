@@ -9,6 +9,7 @@ import {
 interface AddToCollectionProps {
 	collections: AnimeCollection[];
 	afterSubmit?: () => void;
+	handleClose?: () => void;
 	listAnime: string[];
 }
 
