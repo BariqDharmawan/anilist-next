@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { ModalOverlay } from '../Collections/Collection.styled';
+import { ModalOverlay } from './Modal.styled';
 
 interface Props {
 	isShow: boolean;

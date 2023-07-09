@@ -1,42 +1,17 @@
-import { keyframes } from '@emotion/react';
+import { light } from '@/src/theme';
+import { tablet } from '@/src/theme/mediaQuery';
 import styled from '@emotion/styled';
-
-const blurEffect = keyframes`
-	0% {
-		backdrop-filter: blur(8px) opacity(0);
-	} 
-	40%{
-		backdrop-filter: blur(8px) opacity(0.8);
-	}
-	100% {
-		backdrop-filter: blur(4px) opacity(1);
-	}
-`;
-
-export const ModalOverlay = styled.div`
-	position: fixed;
-	inset: 0;
-	background-color: rgba(0, 0, 0, 0.5); /* Warna latar belakang overlay */
-	z-index: ${props =>
-		props.theme.zIndex
-			.overlay}; /* Pastikan overlay tampil di atas elemen lain */
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	animation: ${blurEffect} 300ms ease-in forwards;
-`;
 
 export const CollectionTitle = styled.p`
 	font-weight: 500;
 	font-size: 1.2rem;
-	line-height: 8px;
 	text-transform: capitalize;
 `;
 
 export const ButtonActionWrapper = styled.div`
 	display: flex;
+	margin-top: 1rem;
 	gap: 0.5rem;
-	margin-block: 12px;
 `;
 
 export const CollectionCard = styled.div`
@@ -44,7 +19,7 @@ export const CollectionCard = styled.div`
 	background-color: white;
 	padding: 1.5rem;
 	border-radius: ${props => props.theme.borderRadius.l};
-	max-width: 700px;
+	max-width: ${tablet};
 	width: 100%;
 	transition: height 300ms ease-in-out;
 `;
@@ -72,8 +47,32 @@ export const CollectionSelectedList = styled.div`
 	flex-direction: column;
 `;
 
-export const CollectionSelectedName = styled.span`
+export const CollectionSelectedName = styled.div`
 	font-weight: 500;
 	font-size: 1rem;
 	cursor: pointer;
+	text-transform: capitalize;
+	position: relative;
+	padding: 1rem 1.5rem;
+
+	&:not(:last-child) {
+		border-bottom: 1px solid ${light.color.gray200};
+	}
+
+	&::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 50%;
+		translate: 0 -50%;
+		width: 1rem;
+		height: 1rem;
+		border-radius: 50%;
+		transition: all 150ms;
+		background-color: ${light.color.gray300};
+	}
+
+	&:hover::before {
+		background-color: ${light.color.gGoto};
+	}
 `;

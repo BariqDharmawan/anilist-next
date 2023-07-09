@@ -9,7 +9,9 @@ import CreateCollection from './CreateCollection';
 
 import AddToCollection from './AddToCollection';
 import { useState } from 'react';
-import { createNewAnimeCollection } from '@/src/lib/utils';
+import { TabsContainer } from '../Tabs/Tabs.styled';
+import TabsItem from '../Tabs/TabsItem';
+import Tabs from '../Tabs/Index';
 import Button from '../Button';
 
 type ActionCollectionTab = 'add' | 'create';
@@ -41,18 +43,20 @@ export default function CollectionForm({
 				<GrClose />
 			</IconCloseWrapper>
 			{tabs && (
-				<ButtonActionWrapper>
-					<Button
-						variant='primary'
-						onClick={() => setActiveTab('add')}>
-						Add
-					</Button>
-					<Button
-						variant='primary'
-						onClick={() => setActiveTab('create')}>
-						Create
-					</Button>
-				</ButtonActionWrapper>
+				<>
+					<Tabs style={{ marginBottom: '12px' }}>
+						<TabsItem
+							className={activeTab === 'add' ? 'active' : ''}
+							onClick={() => setActiveTab('add')}>
+							Choose Collection
+						</TabsItem>
+						<TabsItem
+							className={activeTab === 'create' ? 'active' : ''}
+							onClick={() => setActiveTab('create')}>
+							Create New Collection
+						</TabsItem>
+					</Tabs>
+				</>
 			)}
 			{collections && collections.length !== 0 && activeTab === 'add' ? (
 				<AddToCollection

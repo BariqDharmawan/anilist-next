@@ -9,6 +9,7 @@ import {
 	CollectionSelectedList,
 	CollectionSelectedName,
 } from './Collection.styled';
+import { light } from '@/src/theme';
 
 interface AddToCollectionProps {
 	collections: AnimeCollection[];
@@ -26,7 +27,9 @@ export default function AddToCollection({
 		const error = addToCollection(collectionName, data);
 
 		if (error) {
-			toast.error(error);
+			toast.error(
+				<div dangerouslySetInnerHTML={{ __html: error }}></div>
+			);
 			return;
 		}
 
@@ -35,20 +38,16 @@ export default function AddToCollection({
 	};
 
 	return (
-		<div>
-			<div>Add to collection</div>
-			<br />
-			<CollectionSelectedList>
-				{collections.map(collection => (
-					<CollectionSelectedName
-						key={collection.name}
-						onClick={() =>
-							handleAddCollection(collection.name, listAnime)
-						}>
-						{collection.name}
-					</CollectionSelectedName>
-				))}
-			</CollectionSelectedList>
-		</div>
+		<CollectionSelectedList>
+			{collections.map(collection => (
+				<CollectionSelectedName
+					key={collection.name}
+					onClick={() =>
+						handleAddCollection(collection.name, listAnime)
+					}>
+					{collection.name}
+				</CollectionSelectedName>
+			))}
+		</CollectionSelectedList>
 	);
 }

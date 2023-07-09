@@ -8,7 +8,7 @@ import {
 	useQueryMediaPageQuery,
 } from '@/src/graphql/generated';
 import {
-	AnimeListWrapper,
+	StyleAnimeWrapper,
 	AnimeTitle,
 	CoverAnime,
 } from '@/src/components/AnimeList/AnimeList.styled';
@@ -23,6 +23,8 @@ import { setCollectionLocalStorage } from '../lib/utils';
 import ModalRemoveAnimeCollection, {
 	SelectedAnimeRemove,
 } from '../components/Collections/ModalRemoveAnimeCollection';
+import AnimeWrapper from '../components/AnimeList';
+import { BiSolidEdit } from 'react-icons/bi';
 
 interface Props {
 	slug: string;
@@ -33,6 +35,9 @@ export default function CollectionDetail({ slug }: Props) {
 	const [animeList, setAnimeList] = useState<QueryMediaPageQuery | null>(
 		null
 	);
+
+	const [isLoading, setIsLoading] = useState(false);
+
 	const [collection, setCollection] = useState<AnimeCollection | null>(null);
 	const [editMode, setEditMode] = useState(false);
 	const [isMoreThanPhone, setIsMoreThanPhone] = useState(false);
@@ -40,6 +45,8 @@ export default function CollectionDetail({ slug }: Props) {
 		useState<SelectedAnimeRemove | null>(null);
 
 	const fetchData = async (_collection: AnimeCollection) => {
+		setIsLoading(true);
+
 		try {
 			if (_collection.list.length === 0) {
 				setAnimeList(null);
@@ -57,7 +64,9 @@ export default function CollectionDetail({ slug }: Props) {
 					where_media_id: _collection.list.map(l => parseInt(l)),
 				},
 			});
+
 			setAnimeList(result.data);
+			setIsLoading(false);
 		} catch (err) {
 			console.log(err);
 		}
@@ -89,14 +98,21 @@ export default function CollectionDetail({ slug }: Props) {
 
 	return (
 		<>
-			<h3>Collection Name {collection.name}</h3>
-			<Button
-				style={{ marginBlock: '1rem' }}
-				variant='primary'
-				onClick={() => setEditMode(true)}>
-				Edit Collection
-			</Button>
-			<AnimeListWrapper>
+			<div
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					gap: '0.5rem',
+				}}>
+				<h3 style={{ textTransform: 'capitalize' }}>
+					{collection.name}
+				</h3>
+				<Button variant='icon' onClick={() => setEditMode(true)}>
+					<BiSolidEdit />
+				</Button>
+			</div>
+
+			<AnimeWrapper isLoading={isLoading} totalDummyItem={5}>
 				{animeList?.Page?.media?.map(anime => {
 					const coverCol = isMoreThanPhone ? 'large' : 'medium';
 					const imgCover = anime?.coverImage?.[coverCol];
@@ -117,22 +133,32 @@ export default function CollectionDetail({ slug }: Props) {
 									</Link>
 								</CoverAnime>
 							}>
-							<AnimeTitle>{anime.title?.romaji}</AnimeTitle>
-							<Button
-								style={{ marginBlock: '1rem' }}
-								variant='primary'
-								onClick={() =>
-									setSelectedRemoveAnime({
-										id: anime.id.toString(),
-										name: anime.title?.romaji!,
-									})
-								}>
-								Remove
-							</Button>
+							<div
+								style={{
+									height: '100%',
+									display: 'flex',
+									flexDirection: 'column',
+								}}>
+								<AnimeTitle className='mb-s'>
+									{anime.title?.romaji}
+								</AnimeTitle>
+								<Button
+									variant='primary'
+									className='mt-auto'
+									onClick={() =>
+										setSelectedRemoveAnime({
+											id: anime.id.toString(),
+											name: anime.title?.romaji!,
+										})
+									}>
+									Remove
+								</Button>
+							</div>
 						</Card>
 					);
 				})}
-			</AnimeListWrapper>
+			</AnimeWrapper>
+
 			{editMode && (
 				<ModalEditCollection
 					collection={collection}

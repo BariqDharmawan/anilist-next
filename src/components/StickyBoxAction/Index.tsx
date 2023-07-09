@@ -1,6 +1,5 @@
-import { light } from '@/src/theme';
 import { StickyBoxStyle } from './StickyBoxAction.styled';
-import { ComponentProps, PropsWithChildren } from 'react';
+import { PropsWithChildren, useState } from 'react';
 
 const StickyBoxAction = ({
 	children,

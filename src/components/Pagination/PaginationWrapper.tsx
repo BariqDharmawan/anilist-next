@@ -1,29 +1,46 @@
+import { light } from '@/src/theme';
 import { StyledPagination } from './Pagination.styled';
 import PaginationLink from './PaginationLink';
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
+import { SkeletonCircle } from '../Skeleton/Skeleton.styled';
 
 interface Props {
 	page: number;
-	availablePages: number[] | null;
+	availablePages: number[];
+	isLoading: boolean;
 }
 
-const PaginationWrapper = ({ availablePages = null, page }: Props) => {
+const PaginationWrapper = ({
+	availablePages,
+	page,
+	isLoading = false,
+}: Props) => {
 	return (
 		<StyledPagination>
-			{page > 1 && (
+			{!isLoading && page > 1 && (
 				<PaginationLink pageTo={page - 1} icon={<BiLeftArrowAlt />} />
 			)}
 
-			{availablePages?.map(eachPage => (
-				<PaginationLink
-					key={`page-${eachPage}`}
-					pageTo={eachPage}
-					isActive={eachPage === page}
-					label={eachPage}
-				/>
-			))}
+			{!isLoading ? (
+				availablePages.map(eachPage => (
+					<PaginationLink
+						key={`page-${eachPage}`}
+						pageTo={eachPage}
+						isActive={eachPage === page}
+						label={eachPage}
+					/>
+				))
+			) : (
+				<>
+					<SkeletonCircle size='20px' />
+					<SkeletonCircle size='20px' />
+					<SkeletonCircle size='20px' />
+				</>
+			)}
 
-			<PaginationLink pageTo={page + 1} icon={<BiRightArrowAlt />} />
+			{!isLoading && (
+				<PaginationLink pageTo={page + 1} icon={<BiRightArrowAlt />} />
+			)}
 		</StyledPagination>
 	);
 };

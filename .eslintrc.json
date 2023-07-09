@@ -3,6 +3,7 @@
 	"plugins": ["prettier"],
 	"ignorePatterns": ["node_modules", ".next"],
 	"rules": {
+		"semi": "error",
 		"no-alert": "error",
 		"jsx-a11y/alt-text": "error"
 	}

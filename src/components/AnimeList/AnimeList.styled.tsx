@@ -1,18 +1,16 @@
 import styled from '@emotion/styled';
-import { light } from '@/src/theme/index';
 import { laptop } from '@/src/theme/mediaQuery';
 
 export const AnimeListContainer = styled.div`
 	display: grid;
-	max-width: ${props => props.theme.breakpoint.l};
+	width: 100%;
 	margin: auto;
-	padding: 1rem;
 `;
 
-export const AnimeListWrapper = styled.div`
-	margin-top: 24px;
+export const StyleAnimeWrapper = styled.div`
+	margin-top: 1.5rem;
 	display: grid;
-	gap: 12px;
+	gap: 1rem;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 
 	@media screen and (min-width: ${laptop}) {

@@ -105,7 +105,7 @@ export function addToCollection(
 
 	for (let i = 0; i < data.length; i++) {
 		if (collections[indexSelectCollection].list.includes(data[i])) {
-			return `Anime with id ${data[i]} already collected in ${collectionName}`;
+			return `Anime ${data[i]} already in collection <b>${collectionName}</b>`;
 		}
 	}
 
@@ -181,3 +181,13 @@ export function createNewAnimeCollection(
 	setCollectionLocalStorage([...currentCollections, newCollection]);
 	return null;
 }
+
+export const removeElFromArr = ({
+	arr,
+	elToRemove,
+}: {
+	arr: string[];
+	elToRemove: string;
+}) => {
+	return arr.filter(eachEl => elToRemove !== eachEl);
+};

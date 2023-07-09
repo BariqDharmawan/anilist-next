@@ -1,6 +1,6 @@
 import { css, Global } from '@emotion/react';
+import { light } from '../theme';
 
-// Warning this Component for GlobalStyle
 export default function GlobalStyle() {
 	return (
 		<>
@@ -30,7 +30,6 @@ export default function GlobalStyle() {
 					ul {
 						list-style-type: none;
 						padding: 0;
-						margin: 0;
 					}
 
 					h1,
@@ -38,8 +37,46 @@ export default function GlobalStyle() {
 					h3,
 					h4,
 					h5,
-					h6 {
+					h6,
+					p,
+					ul {
 						margin: 0;
+					}
+
+					.mt-auto {
+						margin-top: auto;
+					}
+
+					.mb-auto {
+						margin-bottom: auto;
+					}
+
+					.mb-xxs {
+						margin-bottom: ${light.space.xxs};
+					}
+					.mb-xs {
+						margin-bottom: ${light.space.xs};
+					}
+					.mb-s {
+						margin-bottom: ${light.space.s};
+					}
+					.mb-m {
+						margin-bottom: ${light.space.m};
+					}
+					.mb-l {
+						margin-bottom: ${light.space.l};
+					}
+					.mb-xl {
+						margin-bottom: ${light.space.xl};
+					}
+					.mb-xxl {
+						margin-bottom: ${light.space.xxl};
+					}
+					.mb-xxxl {
+						margin-bottom: ${light.space.xxxl};
+					}
+					.mb-xxxxl {
+						margin-bottom: ${light.space.xxxxl};
 					}
 				`}
 			/>

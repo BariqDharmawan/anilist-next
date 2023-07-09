@@ -14,6 +14,7 @@ const grays = {
 	gray200: '#f0f0f0',
 	gray300: '#ededed',
 	gray800: '#4f4f4f',
+	gray900: '#333333',
 };
 
 const blues = {
@@ -22,6 +23,7 @@ const blues = {
 	b300: '#3188be',
 	b400: '#228dcd',
 	b500: '#3388FF',
+	b800: '#1e293b',
 };
 
 const greens = {

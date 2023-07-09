@@ -10,6 +10,10 @@ export const NavbarLink = styled(Link)`
 		font-weight: bold;
 		font-size: 2rem;
 	}
+
+	&.active {
+		font-weight: bold;
+	}
 `;
 
 export const NavPrimary = styled.nav`

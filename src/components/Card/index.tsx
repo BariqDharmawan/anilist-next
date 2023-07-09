@@ -1,4 +1,4 @@
-import { CardBase, CardBodySM, CardBodyXL, CardCover } from './CardStyled';
+import { CardBase, CardBodySM, CardBodyXL, CardCover } from './Card.styled';
 import { ReactNode } from 'react';
 
 type CardPadding = 's' | 'xl';

@@ -7,21 +7,23 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
 	AnimeListContainer,
-	AnimeListWrapper,
 	AnimeTitle,
 	CoverAnime,
 } from '@/src/components/AnimeList/AnimeList.styled';
-import WaitingData from '@/src/components/WaitingData/Index';
 import PaginationWrapper from '@/src/components/Pagination/PaginationWrapper';
 import Card from '@/src/components/Card';
 import useMatchMedia from '@/src/hooks/useMatchMedia';
 import { ParamPage } from '@/src/lib/allInterface';
-import { BiBookmark, BiChevronDown, BiSolidBookmark } from 'react-icons/bi';
+import {
+	BiBookmark,
+	BiChevronDown,
+	BiSolidBookmark,
+	BiSolidTrashAlt,
+} from 'react-icons/bi';
 import { useEffect, useState } from 'react';
 import StickyBoxAction from '@/src/components/StickyBoxAction/Index';
 import { createPortal } from 'react-dom';
 import { light } from '@/src/theme';
-import ListVertical from '@/src/components/ListVertical';
 import {
 	CollapseDetail,
 	CollapseStyle,
@@ -30,9 +32,13 @@ import Button from '@/src/components/Button';
 import Modal from '@/src/components/Modal/Index';
 import useHandleModal from '@/src/hooks/useHandleModal';
 import CollectionForm from '@/src/components/Collections/CollectionForm';
-import { addToCollection, createNewAnimeCollection } from '@/src/lib/utils';
+import { addToCollection, removeElFromArr } from '@/src/lib/utils';
 import { AnimeCollection } from '@/src/types';
 import getCollection from '@/src/lib/getCollection';
+import AnimeWrapper from '@/src/components/AnimeList';
+import { ListVerticalStyle } from '@/src/components/ListVertical/ListVerticalStyle.styled';
+import { ButtonIcon } from '@/src/components/Button/Button.styled';
+import Container from '@/src/components/Container/Index';
 
 export default function HomePage() {
 	const router = useRouter();
@@ -88,20 +94,14 @@ export default function HomePage() {
 
 	const { isMoreThanPhone } = useMatchMedia();
 
-	const removeAnimeFromSelected = (
-		listAnimeSelected: string[],
-		animeToRemove: string
-	) => {
-		return listAnimeSelected.filter(
-			eachAnime => animeToRemove !== eachAnime
-		);
-	};
-
 	const [listSelectedAnime, setlistSelectedAnime] = useState<string[]>([]);
 	const handleAddToCollection = (animeSelected: string) => {
 		setlistSelectedAnime(prevlistSelectedAnime => {
 			return prevlistSelectedAnime.includes(animeSelected)
-				? removeAnimeFromSelected(prevlistSelectedAnime, animeSelected)
+				? removeElFromArr({
+						arr: prevlistSelectedAnime,
+						elToRemove: animeSelected,
+				  })
 				: [...prevlistSelectedAnime, animeSelected];
 		});
 	};
@@ -118,24 +118,11 @@ export default function HomePage() {
 		listSelectedAnime.length > 0 && getStickyBoxHeight();
 	}, [data, showModal, listSelectedAnime, heightStickyBox]);
 
-	console.log('heightStickyBox', heightStickyBox);
-
-	return loading || error || !data ? (
-		<WaitingData
-			loading={loading}
-			error={Boolean(error)}
-			dataNotExist={!data}
-		/>
-	) : (
-		<>
+	return (
+		<Container>
 			<AnimeListContainer style={{ paddingBottom: heightStickyBox }}>
-				<PaginationWrapper
-					page={page}
-					availablePages={pagePaginationShowed}
-				/>
-
-				<AnimeListWrapper>
-					{data.Page?.media?.map(anime => {
+				<AnimeWrapper totalDummyItem={10} isLoading={loading}>
+					{data?.Page?.media?.map(anime => {
 						const coverCol = isMoreThanPhone ? 'large' : 'medium';
 						const imgCover = anime?.coverImage?.[coverCol];
 
@@ -155,32 +142,25 @@ export default function HomePage() {
 											</Link>
 										</CoverAnime>
 									}>
-									<div>
-										<button
-											onClick={e =>
-												handleAddToCollection(
-													anime.id.toString()
-												)
-											}
-											style={{
-												position: 'relative',
-												cursor: 'pointer',
-												backgroundColor: 'transparent',
-												borderStyle: 'none',
-												padding: '0',
-											}}>
-											{listSelectedAnime &&
-											listSelectedAnime.includes(
+									<Button
+										className='mb-xs'
+										variant='icon'
+										onClick={e =>
+											handleAddToCollection(
 												anime.id.toString()
-											) ? (
-												<BiSolidBookmark
-													color={light.color.gGoto}
-												/>
-											) : (
-												<BiBookmark />
-											)}
-										</button>
-									</div>
+											)
+										}>
+										{listSelectedAnime &&
+										listSelectedAnime.includes(
+											anime.id.toString()
+										) ? (
+											<BiSolidBookmark
+												color={light.color.gGoto}
+											/>
+										) : (
+											<BiBookmark />
+										)}
+									</Button>
 
 									<AnimeTitle>
 										{anime.title?.romaji}
@@ -189,51 +169,96 @@ export default function HomePage() {
 							);
 						}
 					})}
-				</AnimeListWrapper>
+				</AnimeWrapper>
 
-				{listSelectedAnime.length > 0
-					? createPortal(
-							<StickyBoxAction id='sticky-selected-anime'>
-								<CollapseStyle>
-									<summary
-										onClick={() => getStickyBoxHeight()}>
-										<span style={{ fontWeight: 'bold' }}>
-											{listSelectedAnime.length} item
-											selected
-										</span>
-										<BiChevronDown size='1.5rem' />
-									</summary>
+				<PaginationWrapper
+					isLoading={loading || Boolean(error)}
+					page={page}
+					availablePages={pagePaginationShowed}
+				/>
 
-									<CollapseDetail
-										style={{
-											marginTop: '1rem',
-										}}>
-										<ListVertical
-											itemList={(() => {
-												return listSelectedAnime.map(
-													eachSelected => {
-														return data.Page?.media?.filter(
-															eachData =>
-																eachData?.id.toString() ===
-																eachSelected
-														)[0]?.title?.romaji!;
-													}
+				{listSelectedAnime.length > 0 &&
+					data &&
+					createPortal(
+						<StickyBoxAction id='sticky-selected-anime'>
+							<CollapseStyle>
+								<summary onClick={() => getStickyBoxHeight()}>
+									<span style={{ fontWeight: 'bold' }}>
+										{listSelectedAnime.length} item selected
+									</span>
+									<BiChevronDown size='1.5rem' />
+								</summary>
+
+								<CollapseDetail
+									style={{
+										marginTop: '1rem',
+									}}>
+									<ListVerticalStyle>
+										{listSelectedAnime.map(
+											(eachSelected, index) => {
+												return (
+													<li
+														key={`selected anime ${index}`}
+														style={{
+															display: 'flex',
+															justifyContent:
+																'space-between',
+														}}>
+														{
+															data.Page?.media?.filter(
+																eachData =>
+																	eachData?.id.toString() ===
+																	eachSelected
+															)[0]?.title?.romaji
+														}
+														<ButtonIcon
+															onClick={() => {
+																setlistSelectedAnime(
+																	removeElFromArr(
+																		{
+																			arr: listSelectedAnime,
+																			elToRemove:
+																				eachSelected,
+																		}
+																	)
+																);
+															}}>
+															<BiSolidTrashAlt
+																size='1.25rem'
+																color='#ff3c3c'
+															/>
+														</ButtonIcon>
+													</li>
 												);
-											})()}
-										/>
-									</CollapseDetail>
-								</CollapseStyle>
+											}
+										)}
+									</ListVerticalStyle>
+								</CollapseDetail>
+							</CollapseStyle>
 
+							<div
+								style={{
+									marginTop: '1rem',
+									display: 'flex',
+									gap: '1rem',
+									alignItems: 'center',
+								}}>
 								<Button
 									variant='primary'
-									style={{ marginTop: '1rem', width: '100%' }}
+									style={{ width: '50%' }}
 									onClick={() => setShowModal(true)}>
 									Add to collection
 								</Button>
-							</StickyBoxAction>,
-							document.body
-					  )
-					: ''}
+								<Button
+									variant='outline-primary'
+									onClick={() => setlistSelectedAnime([])}
+									style={{ width: '50%' }}>
+									Clear all collection
+								</Button>
+							</div>
+						</StickyBoxAction>,
+						document.body
+					)}
 			</AnimeListContainer>
 
 			<Modal isShow={showModal} handleClose={handleClose}>
@@ -248,6 +273,6 @@ export default function HomePage() {
 					{...{ handleClose, collections }}
 				/>
 			</Modal>
-		</>
+		</Container>
 	);
 }

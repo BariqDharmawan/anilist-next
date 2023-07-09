@@ -16,6 +16,12 @@ import { light } from '@/src/theme';
 import ImageDefaultError from '@/src/components/Img/ImageDefaultError';
 
 import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
+import {
+	DetailCover,
+	DetailDesc,
+	DetailRow,
+	DetailTag,
+} from '@/src/components/AnimeDetail/AnimeDetail.styled';
 
 export default function Detail() {
 	const router = useRouter();
@@ -41,16 +47,8 @@ export default function Detail() {
 			style={{
 				padding: '1.5rem 0',
 			}}>
-			<article
-				style={{
-					display: 'flex',
-				}}>
-				<div
-					style={{
-						width: '20%',
-						paddingRight: '1rem',
-						borderRight: `1px solid ${light.color.gray300}`,
-					}}>
+			<DetailRow>
+				<DetailCover>
 					<div
 						style={{
 							height: '300px',
@@ -62,25 +60,19 @@ export default function Detail() {
 							alt='cover anime'
 							style={{
 								objectFit: 'cover',
-								borderRadius: '10px',
+								borderRadius: light.borderRadius.m,
 							}}
 							fill
 						/>
 					</div>
-				</div>
-				<div
-					style={{
-						width: '80%',
-						padding: '0 1rem',
-					}}>
+				</DetailCover>
+				<DetailDesc>
 					<div
 						style={{
 							display: 'flex',
 							justifyContent: 'space-between',
 						}}>
-						<h1 style={{ margin: 0, color: light.color.gray800 }}>
-							{data?.Media?.title?.romaji}
-						</h1>
+						<h1>{data?.Media?.title?.romaji}</h1>
 						<Button
 							onClick={() => setShowModal(true)}
 							style={{
@@ -112,51 +104,67 @@ export default function Detail() {
 						</Button>
 					</div>
 
-					<div
+					<DetailTag
+						gap='1rem'
 						style={{
-							display: 'flex',
-							gap: '1rem',
 							margin: '1.25rem 0 2rem',
 						}}>
 						{data?.Media?.genres?.map((genre, idx) => (
 							<Badge key={idx}>{genre}</Badge>
 						))}
-					</div>
+					</DetailTag>
 
 					<div
 						style={{
 							marginBottom: '1rem',
+							color: light.color.gray900,
 						}}>
-						<h4>Ratings</h4>
+						<p
+							style={{
+								fontSize: light.textSize.l,
+								fontWeight: 'bold',
+								marginBottom: light.space.xs,
+							}}>
+							Ratings
+						</p>
 						{data?.Review?.score} / 100
 					</div>
 
 					<div style={{ marginBottom: '1.5rem' }}>
-						<h4 style={{ margin: 0 }}>Number of episodes</h4>
+						<p
+							style={{
+								fontSize: light.textSize.l,
+								fontWeight: 'bold',
+								marginBottom: light.space.xs,
+							}}>
+							Number of episodes
+						</p>
 						<p>{data?.Media?.episodes} episodes</p>
 					</div>
 
 					<div
 						style={{
-							marginBottom: '10px',
+							marginBottom: light.space.s,
 						}}>
-						<h4 style={{ marginBottom: '12px' }}>Rankings</h4>
+						<p
+							style={{
+								fontSize: light.textSize.l,
+								marginBottom: light.space.xs,
+								fontWeight: 'bold',
+							}}>
+							Rankings
+						</p>
 						<ul style={{ display: 'inline-block' }}>
 							{data?.Media?.rankings?.map(ranking => (
 								<li
 									key={ranking?.id}
 									style={{
-										display: 'flex',
-										justifyContent: 'space-between',
-										gap: '1rem',
+										display: 'block',
+										columnCount: '2',
 										marginBottom: '0.5rem',
 									}}>
-									<p style={{ margin: 0 }}>
-										Year: {ranking?.year}
-									</p>
-									<p style={{ margin: 0 }}>
-										Rank: {ranking?.rank}
-									</p>
+									<p>Year: {ranking?.year}</p>
+									<p>Rank: {ranking?.rank}</p>
 								</li>
 							))}
 						</ul>
@@ -164,7 +172,14 @@ export default function Detail() {
 
 					{data?.Media?.description && (
 						<div>
-							<h3>Description</h3>
+							<p
+								style={{
+									fontSize: light.textSize.l,
+									fontWeight: 'bold',
+									marginBottom: light.space.xs,
+								}}>
+								Description
+							</p>
 
 							<AnimateDesc
 								dangerouslySetInnerHTML={{
@@ -173,8 +188,8 @@ export default function Detail() {
 							/>
 						</div>
 					)}
-				</div>
-			</article>
+				</DetailDesc>
+			</DetailRow>
 
 			<Modal isShow={showModal} handleClose={handleClose}>
 				<CollectionForm

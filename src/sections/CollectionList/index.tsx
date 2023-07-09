@@ -12,7 +12,7 @@ import CollectionForm from '@/src/components/Collections/CollectionForm';
 import ModalRemoveCollection from '@/src/components/Collections/ModalRemoveCollection';
 import ModalEditCollection from '@/src/components/Collections/ModalEditCollection';
 import {
-	AnimeListWrapper,
+	StyleAnimeWrapper,
 	AnimeTitle,
 	CoverAnime,
 } from '@/src/components/AnimeList/AnimeList.styled';
@@ -21,6 +21,14 @@ import {
 	ButtonActionWrapper,
 	CollectionTitle,
 } from '@/src/components/Collections/Collection.styled';
+import {
+	SkeletonCard,
+	SkeletonCardDesc,
+} from '@/src/components/Skeleton/Skeleton.styled';
+import SkeletonText from '@/src/components/Skeleton/Text';
+import SkeletonIcon from '@/src/components/Skeleton/Icon';
+import { light } from '@/src/theme';
+import AnimeWrapper from '@/src/components/AnimeList';
 
 interface CollectionListType extends AnimeCollection {
 	imageSrc?: string | null;
@@ -79,7 +87,7 @@ export default function CollectionList() {
 				onClick={() => setModalCollection(true)}>
 				Create New Collection
 			</Button>
-			<AnimeListWrapper>
+			<AnimeWrapper totalDummyItem={5} isLoading={loading}>
 				{collectionList.map(collection => (
 					<Card
 						padding='s'
@@ -114,14 +122,14 @@ export default function CollectionList() {
 								Edit
 							</Button>
 							<Button
-								variant='secondary'
+								variant='outline-danger'
 								onClick={() => setModalRemove(collection)}>
 								Remove
 							</Button>
 						</ButtonActionWrapper>
 					</Card>
 				))}
-			</AnimeListWrapper>
+			</AnimeWrapper>
 			<Modal isShow={modalCollection} handleClose={handleClose}>
 				<CollectionForm
 					initTab='create'

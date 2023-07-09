@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import ClientOnly from '@/src/components/ClientOnly';
 import CollectionDetail from '@/src/sections/CollectionDetail';
 import { AnimeListContainer } from '@/src/components/AnimeList/AnimeList.styled';
+import Container from '@/src/components/Container/Index';
 
 export default function CollectionDetailPage() {
 	const router = useRouter();
@@ -13,10 +14,12 @@ export default function CollectionDetailPage() {
 	}
 
 	return (
-		<AnimeListContainer>
-			<ClientOnly>
-				<CollectionDetail {...{ slug }} />
-			</ClientOnly>
-		</AnimeListContainer>
+		<Container>
+			<AnimeListContainer>
+				<ClientOnly>
+					<CollectionDetail {...{ slug }} />
+				</ClientOnly>
+			</AnimeListContainer>
+		</Container>
 	);
 }

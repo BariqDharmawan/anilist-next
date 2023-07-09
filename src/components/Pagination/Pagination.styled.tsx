@@ -7,6 +7,7 @@ export const StyledPagination = styled.ul`
 	padding: 0;
 	margin: 1rem auto 0;
 	align-items: center;
+	justify-content: center;
 	width: 100%;
 	overflow: hidden;
 `;
